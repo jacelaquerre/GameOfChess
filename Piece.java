@@ -14,11 +14,31 @@ public class Piece {
         this.type = type;
     }
 
+// SETTERS
     public void set_x(int x){
         this.x = x;
     }
-
     public void set_y(int y){
         this.y = y;
+    }
+    public void set_color(Color color){
+        this.color = color;
+    }
+    public void set_type(Type type){
+        this.type = type;
+    }
+
+// GETTERS
+    public int get_y(){
+        return this.y;
+    }
+    public int get_x(){
+        return this.x;
+    }
+    public Color get_color(){
+        return this.color;
+    }
+    public Type get_type(){
+        return this.type;
     }
 }
