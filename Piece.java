@@ -7,7 +7,7 @@ public class Piece {
     private Color color;
     private Type type;
 
-    Piece(int x, int y, Color color, Type type){
+    public Piece(int x, int y, Color color, Type type){
         this.x = x;
         this.y = y;
         this.color = color;
