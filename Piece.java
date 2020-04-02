@@ -6,12 +6,19 @@ public class Piece {
     private int y;
     private Color color;
     private Type type;
+    public boolean alive;
 
-    public Piece(int x, int y, Color color, Type type){
+    public Piece(int x, int y, Color color, Type type, boolean alive){
         this.x = x;
         this.y = y;
         this.color = color;
         this.type = type;
+        this.alive = alive;
+    }
+
+    public void movePiece(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
 // SETTERS
