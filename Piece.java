@@ -35,7 +35,11 @@ public class Piece {
         this.type = type;
     }
 
-// GETTERS
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    // GETTERS
     public int get_y(){
         return this.y;
     }
@@ -47,5 +51,9 @@ public class Piece {
     }
     public Type get_type(){
         return this.type;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }
