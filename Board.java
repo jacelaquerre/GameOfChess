@@ -1,6 +1,6 @@
 public class Board {
 
-    public Box[][] board = new Box[7][7];
+    public Box[][] board = new Box[8][8];
 
     public Board() {
         this.create_board();

@@ -1,6 +1,12 @@
 public class Pawn extends Piece {
     public Pawn(Color color, boolean alive){
         super(color, alive);
+        if (color == Piece.Color.WHITE) {
+            shape = "\u2659";
+        }
+        else{
+            shape = "\u265f";
+        }
     }
 
     public boolean validMove(Box curr, Box goTo) {

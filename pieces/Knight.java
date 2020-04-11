@@ -1,6 +1,12 @@
 public class Knight extends Piece {
     public Knight(Color color, boolean alive){
         super(color, alive);
+        if (color == Piece.Color.WHITE) {
+            shape = "\u2658";
+        }
+        else{
+            shape = "\u265e";
+        }
     }
 
     public boolean validMove(Box curr, Box goTo) {

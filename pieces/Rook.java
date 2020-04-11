@@ -1,6 +1,12 @@
 public class Rook extends Piece {
     public Rook(Color color, boolean alive) {
         super(color, alive);
+        if (color == Piece.Color.WHITE) {
+            shape = "\u2656";
+        }
+        else{
+            shape = "\u265c";
+        }
     }
 
     public boolean validMove(Box curr, Box goTo) {

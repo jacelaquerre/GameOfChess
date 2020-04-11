@@ -2,10 +2,12 @@ public class Piece {
     public enum Color {WHITE, BLACK}
     private Color color;
     public boolean alive;
+    public String shape;
 
     public Piece(Color color, boolean alive) {
         this.color = color;
         this.alive = alive;
+        this.shape = "";
     }
 
     public Color getColor() {
@@ -23,7 +25,12 @@ public class Piece {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
+    public String getShape(){
+        return shape;
+    }
 }
+
 
 
 
