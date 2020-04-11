@@ -10,10 +10,10 @@ public class Pawn extends Piece {
         }
         int x = Math.abs(curr.getX() - goTo.getX());
         int y = Math.abs(curr.getY() - goTo.getY());
-        if(curr.getPiece().getColor() == Piece.Color.white && curr.getX() < goTo.getX()) {
+        if(curr.getPiece().getColor() == Piece.Color.WHITE && curr.getX() < goTo.getX()) {
             return false;
         }
-        if(curr.getPiece().getColor() == Piece.Color.black && curr.getX() > goTo.getX()) {
+        if(curr.getPiece().getColor() == Piece.Color.BLACK && curr.getX() > goTo.getX()) {
             return false;
         }
         if(curr.getY() == 1) {
@@ -26,7 +26,7 @@ public class Pawn extends Piece {
                 }
             }
         }
-        if(x == 1 && goTo.getPiece().getColor() ==  Piece.Color.black) {
+        if(x == 1 && goTo.getPiece().getColor() ==  Piece.Color.BLACK) {
             return true;
         }
         if(x == 0 && goTo.getPiece() == null) {

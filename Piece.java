@@ -1,5 +1,5 @@
 public class Piece {
-    public enum Color {white, black}
+    public enum Color {WHITE, BLACK}
     private Color color;
     public boolean alive;
 
