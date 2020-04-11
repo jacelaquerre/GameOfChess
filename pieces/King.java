@@ -4,7 +4,7 @@ public class King extends Piece {
         super(color, alive);
     }
 
-    public boolean validMove(Board board, Box curr, Box goTo) {
+    public boolean validMove(Box curr, Box goTo) {
         // Check if box has piece of same color
         if (curr.getPiece().getColor() == goTo.getPiece().getColor()) {
             return false;
