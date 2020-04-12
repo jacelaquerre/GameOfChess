@@ -41,7 +41,4 @@ public class Pawn extends Piece {
         return false;
     }
 
-    public void draw() {
-
-    }
 }

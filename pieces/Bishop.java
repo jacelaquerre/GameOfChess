@@ -23,8 +23,5 @@ public class Bishop extends Piece {
             return false;
         }
     }
-
-    public void draw() {
-
-    }
+    
 }

@@ -24,10 +24,6 @@ public class King extends Piece {
             return false;
         }
     }
-
-    public void draw() {
-
-    }
 }
 
 

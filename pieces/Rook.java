@@ -22,8 +22,4 @@ public class Rook extends Piece {
             return false;
         }
     }
-
-    public void draw() {
-
-    }
 }

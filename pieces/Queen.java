@@ -22,8 +22,4 @@ public class Queen extends Piece {
             return false;
         }
     }
-
-    public void draw() {
-
-    }
 }
