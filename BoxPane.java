@@ -17,15 +17,17 @@ public class BoxPane  extends HBox{
         this.setAlignment(Pos.CENTER);
         this.setPrefSize(100,100);
         if((b.getX() + b.getY()) % 2 == 0){
-            this.setStyle("-fx-background-color: rgb(.7373, .6196,.4863)");
+            //this.setStyle("-fx-background-color: Color.color(.7373, .6196,.4863, 1);");
+            this.setStyle("-fx-background-color: OLDLACE");
         }
         else{
-            this.setStyle("-fx-background-color: rgb(.4, .314, .239)");
+            //this.setStyle("-fx-background-color: rgb(.4, .314, .239, 1);");
+            this.setStyle("-fx-background-color: TAN");
         }
 
         if(b.getPiece() != null) {
             Text type = new Text(b.getPiece().getShape());
-            type.setFont(new Font(30));
+            type.setFont(new Font(50));
             this.getChildren().add(type);
         }
     }
