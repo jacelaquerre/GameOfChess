@@ -32,12 +32,14 @@ import javafx.scene.control.TextField;
 
 
 public class ChessGUI extends Application {
+    private Game game;
     private Board board;
     private GridPane grid; // grid of boxes
     private BorderPane main; // main layout
 
     @Override
     public void start(Stage primaryStage)throws Exception {
+        primaryStage.setTitle("Chess");
         // Set up Panes
         main = new BorderPane();
         grid = new GridPane();
@@ -45,9 +47,9 @@ public class ChessGUI extends Application {
         // Initialize game and draw Board
         board = new Board();
         drawBoard();
+        main.setCenter(grid);
 
-        // Complete set up
-        primaryStage.setTitle("Chess");
+        // complete setup
         Scene scene = new Scene(main);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -57,11 +59,11 @@ public class ChessGUI extends Application {
 
     // Draws the board
     public void drawBoard() {
-        grid.getChildren().clear();
-        Box[][] boxes = board.getBoard();
-        for (int x=0; x < 8; ++x) {
-            for (int y = 0; y <8; y++) {
-                grid.add(boxes[x][y],x,y);
+        grid.getChildren().clear(); // clears the board
+        for (int r = 0; r < 8; ++r) {
+            for (int c = 0; c <8; c++) {
+                BoxPane bp = new BoxPane(board,r,c);
+                grid.add(bp,r,c);
             }
         }
     }

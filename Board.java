@@ -49,4 +49,8 @@ public class Board {
             }
         }
     }
+
+    public Box getBox(int x, int y){
+        return board[x][y];
+    }
 }

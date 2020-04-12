@@ -7,7 +7,7 @@ import javafx.scene.paint.Paint;
 import javafx.geometry.Pos;
 import java.util.Optional;
 
-public class Box extends HBox {
+public class Box{
     private Piece piece;
     private int x;
     private int y;
@@ -17,22 +17,9 @@ public class Box extends HBox {
         this.x = x;
         this.y = y;
 
-        this.setAlignment(Pos.CENTER);
-        this.setPrefSize(100,100);
-        if(x + y % 2 == 0){
-            this.setStyle("-fx-background-color: rgb(.7373, .6196,.4863)");
-        }
-        else{
-            this.setStyle("-fx-background-color: rgb(.4, .314, .239)");
-        }
-
         if(piece != null) {
             this.piece = piece;
-            Text type = new Text(piece.getShape());
-            type.setFont(new Font(30));
-            this.getChildren().add(type);
         }
-
     }
 
 
