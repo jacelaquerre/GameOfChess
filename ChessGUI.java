@@ -33,7 +33,6 @@ import javafx.scene.control.TextField;
 
 public class ChessGUI extends Application {
     private Game game;
-    private Board board;
     private GridPane grid; // grid of boxes
     private BorderPane main; // main layout
 
@@ -45,7 +44,7 @@ public class ChessGUI extends Application {
         grid = new GridPane();
 
         // Initialize game and draw Board
-        board = new Board();
+        game = new Game();
         drawBoard();
         main.setCenter(grid);
 
@@ -56,13 +55,19 @@ public class ChessGUI extends Application {
     }
 
     // Event handling for user clicking Box
+    public void handleClick(MouseEvent e){
+         BoxPane bp =(BoxPane)(e.getSource());
+
+         // if color of piece aligns with current team allow click
+
+    }
 
     // Draws the board
     public void drawBoard() {
         grid.getChildren().clear(); // clears the board
         for (int r = 0; r < 8; ++r) {
             for (int c = 0; c <8; c++) {
-                BoxPane bp = new BoxPane(board,r,c);
+                BoxPane bp = new BoxPane(game.getBoard(),r,c);
                 grid.add(bp,r,c);
             }
         }

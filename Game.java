@@ -16,6 +16,10 @@ public class Game {
     private Piece pieceMoved;
     private Piece pieceKilled;
 
+    public Game(){
+        this.startGame();
+    }
+
     public Game(Board board, GameMode status, Player currentTurn, Box start, Box end, Piece pieceMoved, Piece pieceKilled) {
         this.board = board;
         this.status = status;
@@ -103,7 +107,7 @@ public class Game {
         Player black = blackPlayer;
         Player white = whitePlayer;
 
-        Board board = new Board();
+        board = new Board();
         board.create_board();
 
         if (white.isTurn()) {
