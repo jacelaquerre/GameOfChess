@@ -55,10 +55,23 @@ public class ChessGUI extends Application {
     }
 
     // Event handling for user clicking Box
+    // User should only be able to select one tile. Once another tile is clicked, if it is a valid move,
+    // the current piece moves there
     public void handleClick(MouseEvent e){
          BoxPane bp =(BoxPane)(e.getSource());
 
-         // if color of piece aligns with current team allow click
+         // allow a user to un-select the piece
+         if(bp.isSelected()){
+             bp.setSelected(false);
+         }
+         else if(bp.getBox().getPiece()!= null){
+             // if color of piece aligns with current team allow click
+             if (bp.getBox().getPiece().getColor() == Piece.Color.WHITE && game.getCurrentTurn() == game.getWhitePlayer()) {
+                 bp.setSelected(true);
+             } else if (bp.getBox().getPiece().getColor() == Piece.Color.BLACK && game.getCurrentTurn() == game.getBlackPlayer()) {
+                 bp.setSelected(true);
+             }
+         }
 
     }
 
@@ -68,6 +81,7 @@ public class ChessGUI extends Application {
         for (int r = 0; r < 8; ++r) {
             for (int c = 0; c <8; c++) {
                 BoxPane bp = new BoxPane(game.getBoard(),r,c);
+                bp.setOnMouseClicked(this::handleClick);
                 grid.add(bp,r,c);
             }
         }

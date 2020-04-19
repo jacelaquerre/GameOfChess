@@ -107,6 +107,7 @@ public class Game {
         Player black = blackPlayer;
         Player white = whitePlayer;
 
+        //Board board = new Board();
         board = new Board();
         board.create_board();
 

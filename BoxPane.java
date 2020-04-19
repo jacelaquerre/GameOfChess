@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class BoxPane  extends HBox{
     private Box box;
+    private boolean selected;
 
     public BoxPane(Box b){
         super();
@@ -17,12 +18,10 @@ public class BoxPane  extends HBox{
         this.setAlignment(Pos.CENTER);
         this.setPrefSize(100,100);
         if((b.getX() + b.getY()) % 2 == 0){
-            //this.setStyle("-fx-background-color: Color.color(.7373, .6196,.4863, 1);");
-            this.setStyle("-fx-background-color: OLDLACE");
+            this.setStyle("-fx-background-color: #DBC69F");
         }
         else{
-            //this.setStyle("-fx-background-color: rgb(.4, .314, .239, 1);");
-            this.setStyle("-fx-background-color: TAN");
+            this.setStyle("-fx-background-color: #A0815C");
         }
 
         if(b.getPiece() != null) {
@@ -42,12 +41,30 @@ public class BoxPane  extends HBox{
         this(b.getBox(row,col));
     }
 
-    /**
+    /** 160 129 92
      * Method setSelected changes the appearance of the box
      * @param: pressed, box is set as selected is true, set as unselected otherwise
      */
     public void setSelected(boolean pressed){
+        this.selected = pressed;
+        if(pressed) {
+            if ((box.getX() + box.getY()) % 2 == 0) {
+                this.setStyle("-fx-background-color: #C8A984");
+            } else {
+                this.setStyle("-fx-background-color: #876844");
+            }
+        }
+        else {
+            if ((box.getX() + box.getY()) % 2 == 0) {
+                this.setStyle("-fx-background-color: #DBC69F");
+            } else {
+                this.setStyle("-fx-background-color: #A0815C");
+            }
+        }
+    }
 
+    public boolean isSelected() {
+        return selected;
     }
 
     public Box getBox(){
