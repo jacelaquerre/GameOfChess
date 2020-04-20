@@ -1,6 +1,6 @@
 public class Bishop extends Piece {
 
-    public Bishop(Color color, boolean alive){
+    public Bishop(Color color, boolean alive) {
         super(color, alive);
         if (color == Piece.Color.WHITE) {
             this.shape = "\u2657";
@@ -18,8 +18,14 @@ public class Bishop extends Piece {
         int x = Math.abs(curr.getX() - goTo.getX());
         int y = Math.abs(curr.getY() - goTo.getY());
         if (x / y == 1) {
-            return true;
-        } else {
+            if (goTo.getPiece().getColor() == curr.getPiece().getColor()) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
             return false;
         }
     }

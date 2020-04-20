@@ -10,9 +10,9 @@ public class Game {
     public  GameMode status;
     public  Player whitePlayer = new Player(Piece.Color.WHITE, true, false);
     public  Player blackPlayer = new Player(Piece.Color.BLACK, false, false);
-    private Player currentTurn;
-    private Box start;
-    private Box end;
+    public Player currentTurn;
+    public Box start;
+    public Box end;
     private Piece pieceMoved;
     private Piece pieceKilled;
 
@@ -107,7 +107,6 @@ public class Game {
         Player black = blackPlayer;
         Player white = whitePlayer;
 
-        //Board board = new Board();
         board = new Board();
         board.create_board();
 
@@ -117,6 +116,12 @@ public class Game {
         else {
             this.currentTurn = black;
         }
+    }
 
+    public boolean playerMove(Player player, Box start, Box end) {
+        pieceMoved = start.getPiece();
+        //if (pieceMoved.validMove()) {
+        //}
+        return false;
     }
 }

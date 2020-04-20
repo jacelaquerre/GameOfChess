@@ -17,7 +17,12 @@ public class Knight extends Piece {
         int x = Math.abs(curr.getX() - goTo.getX());
         int y = Math.abs(curr.getY() - goTo.getY());
         if (x * y == 2) {
-            return true;
+            if (goTo.getPiece().getColor() == curr.getPiece().getColor()) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
         else {
             return false;

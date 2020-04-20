@@ -16,7 +16,7 @@ public class Board {
 
     public void create_board(){
 
-        // WHITE PLAYER
+        // BLACK PLAYER
         board[0][7] = new Box(new Rook(Piece.Color.BLACK, true), 0, 7);
         board[1][7] = new Box(new Knight(Piece.Color.BLACK, true), 1, 7);
         board[2][7] = new Box(new Bishop(Piece.Color.BLACK, true), 2, 7);
@@ -29,7 +29,7 @@ public class Board {
              board[i][6] = new Box(new Pawn(Piece.Color.BLACK, true), i, 6);
          }
 
-        // BLACK PLAYER
+        // WHITE PLAYER
         board[0][0] = new Box(new Rook(Piece.Color.WHITE, true), 0, 0);
         board[1][0] = new Box(new Knight(Piece.Color.WHITE, true), 1, 0);
         board[2][0] = new Box(new Bishop(Piece.Color.WHITE, true), 2, 0);

@@ -17,8 +17,14 @@ public class Queen extends Piece {
         int x = Math.abs(curr.getX() - goTo.getX());
         int y = Math.abs(curr.getY() - goTo.getY());
         if ((x != 0 && y == 0) || (y != 0 && x ==0 || (x / y == 1))) {
-            return true;
-        } else {
+            if (goTo.getPiece().getColor() == curr.getPiece().getColor()) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
             return false;
         }
     }
