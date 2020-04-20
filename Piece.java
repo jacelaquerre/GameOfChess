@@ -1,4 +1,4 @@
-public class Piece {
+public abstract  class Piece {
     public enum Color {WHITE, BLACK}
     private Color color;
     public boolean alive;
@@ -29,6 +29,9 @@ public class Piece {
     public String getShape(){
         return shape;
     }
+
+    public abstract boolean validMove(Box curr, Box goTo);
+
 }
 
 

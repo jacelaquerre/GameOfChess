@@ -9,6 +9,7 @@ public class Pawn extends Piece {
         }
     }
 
+    @Override
     public boolean validMove(Box curr, Box goTo) {
         // Check if box has piece of same color
         if (curr.getPiece().getColor() == goTo.getPiece().getColor()) {
