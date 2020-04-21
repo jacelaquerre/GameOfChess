@@ -125,18 +125,18 @@ public class Game {
                 pieceKilled = end.getPiece();
                 pieceKilled.setAlive(false);
                 if (pieceKilled instanceof King) {
-                    if (currPlayer.getColor() == Piece.Color.WHITE) {
+                    if (currPlayer == whitePlayer) {
                         status = GameMode.WHITE_WIN;
                         whitePlayer.setWinner(true);
-                    }
-                    else {
+                    } else {
                         status = GameMode.BLACK_WIN;
                         blackPlayer.setWinner(true);
                     }
                 }
             }
             end.setPiece(pieceMoved);
-            if (currPlayer.getColor() == Piece.Color.WHITE) {
+            start.setPiece(null);
+            if (currPlayer == whitePlayer) {
                 currentTurn = blackPlayer;
                 blackPlayer.setTurn(true);
                 whitePlayer.setTurn(false);
