@@ -7,9 +7,9 @@ public class Game {
         TIE
     }
     private Board board;
-    public  GameMode status;
-    public  Player whitePlayer = new Player(Piece.Color.WHITE, true, false);
-    public  Player blackPlayer = new Player(Piece.Color.BLACK, false, false);
+    public GameMode status;
+    public Player whitePlayer;
+    public Player blackPlayer;
     public Player currentTurn;
     public Box start;
     public Box end;
@@ -18,6 +18,13 @@ public class Game {
 
     public Game(){
         this.startGame();
+        whitePlayer = new Player(Piece.Color.WHITE, true, false);
+        blackPlayer = new Player(Piece.Color.BLACK, false, false);
+        currentTurn = null;
+        start = null;
+        end = null;
+        pieceMoved = null;
+        pieceKilled = null;
     }
 
     public Game(Board board, GameMode status, Player currentTurn, Box start, Box end, Piece pieceMoved, Piece pieceKilled) {
