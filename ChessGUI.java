@@ -30,23 +30,84 @@ import javafx.scene.shape.*;
 import javafx.util.Duration;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+
 
 public class ChessGUI extends Application {
-    private Game game;
+    private Game game; // The game
     private GridPane grid; // grid of boxes
     private BorderPane main; // main layout
+    private Button newGame, endGame;
+    private VBox extra, whiteTimer, blackTimer; ;
+    private HBox timers;
+    private Text whiteTime, blackTime;
+    private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
+    private Timeline whiteClockTimeline, blackClockTimeline;
 
     @Override
     public void start(Stage primaryStage)throws Exception {
         primaryStage.setTitle("Chess");
         // Set up Panes
         main = new BorderPane();
+        extra = new VBox(30);
+        extra.setStyle("-fx-background-color: white");
+        extra.setMinWidth(120);
+        main.setLeft(extra);
+
         grid = new GridPane();
 
         // Initialize game and draw Board
         game = new Game();
         drawBoard();
         main.setCenter(grid);
+
+        // New Game Button
+
+        // End Game Button
+
+        // Set up timers
+        whiteTime = new Text("10:00");
+        whiteClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeTime(whiteTime, Piece.Color.WHITE);
+            }
+        }));
+        whiteClockTimeline.setCycleCount(Timeline.INDEFINITE);
+        whiteClockTimeline.setAutoReverse(false);
+        whiteTimer = new VBox(10);
+        whiteTimer.setAlignment(Pos.CENTER);
+        Text label1 = new Text("Player 1");
+        whiteTimer.getChildren().addAll(label1, whiteTime);
+
+        blackTime = new Text("10:00");
+        blackClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeTime(blackTime, Piece.Color.BLACK);
+            }
+        }));
+        blackClockTimeline.setCycleCount(Timeline.INDEFINITE);
+        blackClockTimeline.setAutoReverse(false);
+        blackTimer = new VBox(10);
+        blackTimer.setAlignment(Pos.CENTER);
+        Text label2 = new Text("Player 2");
+        blackTimer.getChildren().addAll(label2, blackTime);
+
+        timers = new HBox(10);
+        timers.setAlignment(Pos.CENTER);
+        timers.getChildren().addAll(whiteTimer, blackTimer);
+        extra.getChildren().add(timers);
+
+        if(game.getCurrentTurn() == game.getWhitePlayer()){
+            blackClockTimeline.pause();
+            whiteClockTimeline.play();
+
+        }
+        else if(game.getCurrentTurn() == game.getBlackPlayer()){
+            whiteClockTimeline.pause();
+            blackClockTimeline.play();
+        }
 
         // complete setup
         Scene scene = new Scene(main);
@@ -73,6 +134,28 @@ public class ChessGUI extends Application {
              }
          }
 
+    }
+
+    // Event handling for timer running out
+    public void handleOutOfTime(ActionEvent e){
+
+    }
+
+    public void changeTime(Text txt, Piece.Color team) {
+        if (team == Piece.Color.WHITE){
+            if(wSecs == 0) {
+                wMins--;
+                wSecs = 59;
+            }
+            txt.setText(((wMins/10 == 0 ? "0" : "")+ wMins) + ":" + (((wSecs/10) == 0) ? "0" : "") + wSecs--);
+        }
+        else {
+            if(bSecs == 0) {
+                bMins--;
+                bSecs = 59;
+            }
+            txt.setText(((bMins/10 == 0 ? "0" : "")+ bMins) + ":" + (((bSecs/10) == 0) ? "0" : "") + bSecs--);
+        }
     }
 
     // Draws the board
