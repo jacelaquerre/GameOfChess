@@ -18,10 +18,10 @@ public class BoxPane  extends HBox{
         this.setAlignment(Pos.CENTER);
         this.setPrefSize(100,100);
         if((b.getX() + b.getY()) % 2 == 0){
-            this.setStyle("-fx-background-color: #534437");
+            this.setStyle("-fx-background-color: #534437;");
         }
         else{
-            this.setStyle("-fx-background-color: #e7c79f");
+            this.setStyle("-fx-background-color: #e7c79f;");
         }
 
         if(b.getPiece() != null) {
@@ -44,7 +44,7 @@ public class BoxPane  extends HBox{
         this(b.getBox(row,col));
     }
 
-    /** 160 129 92
+    /**
      * Method setSelected changes the appearance of the box
      * @param: pressed, box is set as selected is true, set as unselected otherwise
      */
@@ -52,16 +52,16 @@ public class BoxPane  extends HBox{
         this.selected = pressed;
         if(pressed) {
             if ((box.getX() + box.getY()) % 2 == 0) {
-                this.setStyle("-fx-background-color: #C8A984;" + "-fx-border-width: 3;"+ "-fx-border-color: #542f23;");
+                this.setStyle("-fx-background-color: #392f2a;");
             } else {
-                this.setStyle("-fx-background-color: #876844;");
+                this.setStyle("-fx-background-color: #a68b67;");
             }
         }
         else {
             if ((box.getX() + box.getY()) % 2 == 0) {
-                this.setStyle("-fx-background-color: #a68b67;");
+                this.setStyle("-fx-background-color: #534437;");
             } else {
-                this.setStyle("-fx-background-color: #a68b67;");
+                this.setStyle("-fx-background-color: #e7c79f;");
             }
         }
     }
