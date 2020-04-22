@@ -187,10 +187,10 @@ public class ChessGUI extends Application {
     public void changeTime(Text txt, Piece.Color team) {
         if (team == Piece.Color.WHITE){
             if(wSecs == 0) {
-                wMins--;
-                wSecs = 59;
+                --wMins;
+                wSecs = 60;
             }
-            txt.setText(((wMins/10 == 0 ? "0" : "")+ wMins) + ":" + (((wSecs/10) == 0) ? "0" : "") + wSecs--);
+            txt.setText(((wMins/10 == 0 ? "0" : "")+ wMins) + ":" + (((wSecs/10) == 0) ? "0" : "") + --wSecs);
             if(wMins == 0 && wSecs == 0){
                 game.setStatus(Game.GameMode.BLACK_WIN);
                 whiteClockTimeline.stop();
@@ -198,10 +198,10 @@ public class ChessGUI extends Application {
         }
         else {
             if(bSecs == 0) {
-                bMins--;
-                bSecs = 59;
+                --bMins;
+                bSecs = 60;
             }
-            txt.setText(((bMins/10 == 0 ? "0" : "")+ bMins) + ":" + (((bSecs/10) == 0) ? "0" : "") + bSecs--);
+            txt.setText(((bMins/10 == 0 ? "0" : "")+ bMins) + ":" + (((bSecs/10) == 0) ? "0" : "") + --bSecs);
             if(bMins == 0 && bSecs == 0){
                 game.setStatus(Game.GameMode.WHITE_WIN);
                 blackClockTimeline.stop();
