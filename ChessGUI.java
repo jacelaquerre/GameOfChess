@@ -62,6 +62,7 @@ public class ChessGUI extends Application {
         game = new Game();
         drawBoard();
         selected = new ArrayList<BoxPane>();
+        grid.setStyle("-fx-border-color: #392f2a;" + "-fx-border-width: 10;");
         main.setCenter(grid);
 
         // New Game Button
@@ -192,6 +193,7 @@ public class ChessGUI extends Application {
             txt.setText(((wMins/10 == 0 ? "0" : "")+ wMins) + ":" + (((wSecs/10) == 0) ? "0" : "") + wSecs--);
             if(wMins == 0 && wSecs == 0){
                 game.setStatus(Game.GameMode.BLACK_WIN);
+                whiteClockTimeline.stop();
             }
         }
         else {
@@ -202,6 +204,7 @@ public class ChessGUI extends Application {
             txt.setText(((bMins/10 == 0 ? "0" : "")+ bMins) + ":" + (((bSecs/10) == 0) ? "0" : "") + bSecs--);
             if(bMins == 0 && bSecs == 0){
                 game.setStatus(Game.GameMode.WHITE_WIN);
+                blackClockTimeline.stop();
             }
         }
     }
