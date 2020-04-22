@@ -43,6 +43,7 @@ public class ChessGUI extends Application {
     private Text whiteTime, blackTime;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
     private Timeline whiteClockTimeline, blackClockTimeline;
+    private ArrayList<BoxPane> selected;
 
     @Override
     public void start(Stage primaryStage)throws Exception {
@@ -60,6 +61,7 @@ public class ChessGUI extends Application {
         // Initialize game and draw Board
         game = new Game();
         drawBoard();
+        selected = new ArrayList<BoxPane>();
         main.setCenter(grid);
 
         // New Game Button
@@ -136,29 +138,50 @@ public class ChessGUI extends Application {
         primaryStage.show();
     }
 
-    // Event handling for user clicking Box
-    // User should only be able to select one tile. Once another tile is clicked, if it is a valid move,
-    // the current piece moves there
+    /**
+     * Event handling for user clicking Box
+     * User should only be able to select one tile. Once another tile is clicked, if it is a valid move,
+     * the current piece moves there
+     */
+
     public void handleClick(MouseEvent e){
          BoxPane bp =(BoxPane)(e.getSource());
 
          // allow a user to un-select the piece
          if(bp.isSelected()){
              bp.setSelected(false);
+             selected.remove(bp);
          }
-         else if(bp.getBox().getPiece()!= null){
-             // if color of piece aligns with current team allow click
+         // if color of piece aligns with current team and no other piece is selected allow click
+         else if(bp.getBox().getPiece()!= null && selected.isEmpty()) {
              if (bp.getBox().getPiece().getColor() == Piece.Color.WHITE && game.getCurrentTurn() == game.getWhitePlayer()) {
                  bp.setSelected(true);
+                 selected.add(bp);
              } else if (bp.getBox().getPiece().getColor() == Piece.Color.BLACK && game.getCurrentTurn() == game.getBlackPlayer()) {
                  bp.setSelected(true);
+                 selected.add(bp);
              }
+         }
+         // if box is empty or holds an opponent piece check to see if it is a valid move
+         else if(bp.getBox().getPiece() == null || bp.getBox().getPiece().getColor() != game.getCurrentTurn().getColor()){
+             boolean ans = game.playerMove(game.getCurrentTurn(), selected.get(0).getBox(), bp.getBox());
+             if(ans){
+                 selected.get(0).setSelected(false);
+                 selected.clear();
+             }
+         }
+         // Check if piece is the same color as previously selected piece, if so remove past piece from selected and select new piece
+         else if(selected.get(0).getBox().getPiece().getColor() == bp.getBox().getPiece().getColor()){
+             selected.get(0).setSelected(false);
+             selected.clear();
+             selected.add(bp);
+             bp.setSelected(true);
          }
 
     }
 
-    // Event handling for timer running out
-    public void handleOutOfTime(ActionEvent e){
+    // Event handling for timer running out or ending game
+    public void handleEnd(ActionEvent e){
 
     }
 
@@ -169,6 +192,9 @@ public class ChessGUI extends Application {
                 wSecs = 59;
             }
             txt.setText(((wMins/10 == 0 ? "0" : "")+ wMins) + ":" + (((wSecs/10) == 0) ? "0" : "") + wSecs--);
+            if(wMins == 0 && wSecs == 0){
+                game.setStatus(Game.GameMode.BLACK_WIN);
+            }
         }
         else {
             if(bSecs == 0) {
@@ -176,6 +202,9 @@ public class ChessGUI extends Application {
                 bSecs = 59;
             }
             txt.setText(((bMins/10 == 0 ? "0" : "")+ bMins) + ":" + (((bSecs/10) == 0) ? "0" : "") + bSecs--);
+            if(bMins == 0 && bSecs == 0){
+                game.setStatus(Game.GameMode.WHITE_WIN);
+            }
         }
     }
 

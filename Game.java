@@ -118,7 +118,7 @@ public class Game {
         }
     }
 
-    public void playerMove(Player currPlayer, Box start, Box end) {
+    public boolean playerMove(Player currPlayer, Box start, Box end) {
         pieceMoved = start.getPiece();
         if (pieceMoved.validMove(start, end)) {
             if (end.getPiece().getColor() != pieceMoved.getColor()) {
@@ -145,7 +145,9 @@ public class Game {
                 blackPlayer.setTurn(false);
                 whitePlayer.setTurn(true);
             }
+            return true;
         }
+        return false;
     }
 
     // Function to take in timer, if game is too long, set as tie
