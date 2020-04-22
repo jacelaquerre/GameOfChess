@@ -2,12 +2,7 @@ public class King extends Piece {
 
     public King(Color color, boolean alive){
         super(color, alive);
-        if (color == Piece.Color.WHITE) {
-            shape = "\u2654";
-        }
-        else{
-            shape = "\u265a";
-        }
+        shape = "\u265a";
     }
 
     @Override

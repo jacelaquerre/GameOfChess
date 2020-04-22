@@ -18,15 +18,18 @@ public class BoxPane  extends HBox{
         this.setAlignment(Pos.CENTER);
         this.setPrefSize(100,100);
         if((b.getX() + b.getY()) % 2 == 0){
-            this.setStyle("-fx-background-color: #DBC69F");
+            this.setStyle("-fx-background-color: #534437");
         }
         else{
-            this.setStyle("-fx-background-color: #A0815C");
+            this.setStyle("-fx-background-color: #e7c79f");
         }
 
         if(b.getPiece() != null) {
             Text type = new Text(b.getPiece().getShape());
             type.setFont(new Font(50));
+            if(box.getPiece().getColor() == Piece.Color.WHITE) {
+                type.setStyle("-fx-fill: white;");
+            }
             this.getChildren().add(type);
         }
     }
@@ -49,16 +52,16 @@ public class BoxPane  extends HBox{
         this.selected = pressed;
         if(pressed) {
             if ((box.getX() + box.getY()) % 2 == 0) {
-                this.setStyle("-fx-background-color: #C8A984");
+                this.setStyle("-fx-background-color: #C8A984;" + "-fx-border-width: 3;"+ "-fx-border-color: #542f23;");
             } else {
-                this.setStyle("-fx-background-color: #876844");
+                this.setStyle("-fx-background-color: #876844;");
             }
         }
         else {
             if ((box.getX() + box.getY()) % 2 == 0) {
-                this.setStyle("-fx-background-color: #DBC69F");
+                this.setStyle("-fx-background-color: #a68b67;");
             } else {
-                this.setStyle("-fx-background-color: #A0815C");
+                this.setStyle("-fx-background-color: #a68b67;");
             }
         }
     }

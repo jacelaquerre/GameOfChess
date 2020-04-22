@@ -143,7 +143,6 @@ public class ChessGUI extends Application {
      * User should only be able to select one tile. Once another tile is clicked, if it is a valid move,
      * the current piece moves there
      */
-
     public void handleClick(MouseEvent e){
          BoxPane bp =(BoxPane)(e.getSource());
 
@@ -163,7 +162,7 @@ public class ChessGUI extends Application {
              }
          }
          // if box is empty or holds an opponent piece check to see if it is a valid move
-         else if(bp.getBox().getPiece() == null || bp.getBox().getPiece().getColor() != game.getCurrentTurn().getColor()){
+         else if((bp.getBox().getPiece() == null || bp.getBox().getPiece().getColor() != game.getCurrentTurn().getColor()) && !selected.isEmpty()){
              boolean ans = game.playerMove(game.getCurrentTurn(), selected.get(0).getBox(), bp.getBox());
              if(ans){
                  selected.get(0).setSelected(false);
@@ -177,7 +176,6 @@ public class ChessGUI extends Application {
              selected.add(bp);
              bp.setSelected(true);
          }
-
     }
 
     // Event handling for timer running out or ending game

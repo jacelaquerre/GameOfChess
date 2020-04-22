@@ -2,12 +2,7 @@ public class Bishop extends Piece {
 
     public Bishop(Color color, boolean alive) {
         super(color, alive);
-        if (color == Piece.Color.WHITE) {
-            this.shape = "\u2657";
-        }
-        else{
-            this.shape = "\u265d";
-        }
+        this.shape = "\u265d";
     }
 
     @Override

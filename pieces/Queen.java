@@ -1,12 +1,7 @@
 public class Queen extends Piece {
     public Queen(Color color, boolean alive){
         super(color, alive);
-        if (color == Piece.Color.WHITE) {
-            shape = "\u2655";
-        }
-        else{
             shape = "\u265b";
-        }
     }
 
     @Override
