@@ -51,22 +51,22 @@ public class ChessGUI extends Application {
         // Set up Panes
         main = new BorderPane();
         extra = new VBox(30);
-        extra.setStyle("-fx-background-color: #6f88aa;");
+        extra.setStyle("-fx-background-color: #4f5a69;");
         extra.setMinWidth(200);
         extra.setPadding(new Insets(20, 20, 20, 20));
         main.setLeft(extra);
         buttonPane = new VBox(30);
         buttonPane.setPadding(new Insets(20,20,20,20));
-        buttonPane.setStyle("-fx-background-color: #953939;");
+        buttonPane.setStyle("-fx-background-color: #7b5954;");
         main.setRight(buttonPane);
 
         grid = new GridPane();
+        grid.setStyle("-fx-background-color:#392f2a;" + "-fx-border-color: #392f2a;" + "-fx-border-width: 10;");
 
         // Initialize game and draw Board
         game = new Game();
         drawBoard();
         selected = new ArrayList<BoxPane>();
-        grid.setStyle("-fx-border-color: #392f2a;" + "-fx-border-width: 10;");
         main.setCenter(grid);
 
         // New Game Button
