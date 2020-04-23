@@ -112,17 +112,17 @@ public class ChessGUI extends Application {
 
         timers = new HBox(10);
         timers.setAlignment(Pos.CENTER);
-        timers.setStyle("-fx-background-color: mintcream;"+"-fx-border-width:2;" + "-fx-border-color: black;");
+        timers.setStyle("-fx-background-color: #d1e5eb;" + "-fx-border-width:5;" + "-fx-border-color: #727a87;");
         timers.setPadding(new Insets(10, 10, 10, 10));
         timers.getChildren().addAll(whiteTimer, blackTimer);
         extra.getChildren().add(timers);
 
         if(game.getCurrentTurn() == game.getWhitePlayer()){
-            blackTimer.setStyle("-fx-background-color: mintcream;");
+            blackTimer.setStyle("-fx-background-color: #d1e5eb;");
             label2.setStrokeWidth(0);
             blackTime.setFont(new Font(13));
 
-            whiteTimer.setStyle("-fx-background-color: salmon;" + "-fx-border-width:2;"+"-fx-border-color: indianred;");
+            whiteTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
             label1.setStroke(Color.BLACK);
             label1.setStrokeWidth(.5);
             whiteTime.setFont(new Font(15));
@@ -131,11 +131,11 @@ public class ChessGUI extends Application {
 
         }
         else if(game.getCurrentTurn() == game.getBlackPlayer()){
-            whiteTimer.setStyle("-fx-background-color: mintcream;");
+            whiteTimer.setStyle("-fx-background-color: #d1e5eb;");
             label1.setStrokeWidth(0);
             whiteTime.setFont(new Font(13));
 
-            blackTimer.setStyle("-fx-background-color: salmon;" + "-fx-border-width:2;"+"-fx-border-color: indianred;");
+            blackTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
             label2.setStroke(Color.BLACK);
             label2.setStrokeWidth(.5);
             blackTime.setFont(new Font(15));
