@@ -121,20 +121,23 @@ public class Game {
     public boolean playerMove(Player currPlayer, Box start, Box end) {
         pieceMoved = start.getPiece();
         if (pieceMoved.validMove(start, end)) {
-            if (end.getPiece().getColor() != pieceMoved.getColor()) {
-                pieceKilled = end.getPiece();
-                pieceKilled.setAlive(false);
-                if (pieceKilled instanceof King) {
-                    if (currPlayer == whitePlayer) {
-                        status = GameMode.WHITE_WIN;
-                        whitePlayer.setWinner(true);
-                    } else {
-                        status = GameMode.BLACK_WIN;
-                        blackPlayer.setWinner(true);
+            if (end.getPiece() != null) {
+                if (end.getPiece().getColor() != pieceMoved.getColor()) {
+                    pieceKilled = end.getPiece();
+                    pieceKilled.setAlive(false);
+                    if (pieceKilled instanceof King) {
+                        if (currPlayer == whitePlayer) {
+                            status = GameMode.WHITE_WIN;
+                            whitePlayer.setWinner(true);
+                        } else {
+                            status = GameMode.BLACK_WIN;
+                            blackPlayer.setWinner(true);
+                        }
                     }
                 }
             }
             end.setPiece(pieceMoved);
+            pieceKilled = null;
             start.setPiece(null);
             if (currPlayer == whitePlayer) {
                 currentTurn = blackPlayer;
