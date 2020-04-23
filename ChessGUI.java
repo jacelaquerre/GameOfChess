@@ -85,6 +85,7 @@ public class ChessGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 changeTime(whiteTime, Piece.Color.WHITE);
+                checkPlayerStatus();
             }
         }));
         whiteClockTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -100,6 +101,7 @@ public class ChessGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 changeTime(blackTime, Piece.Color.BLACK);
+                checkPlayerStatus();
             }
         }));
         blackClockTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -116,32 +118,7 @@ public class ChessGUI extends Application {
         timers.setPadding(new Insets(10, 10, 10, 10));
         timers.getChildren().addAll(whiteTimer, blackTimer);
         extra.getChildren().add(timers);
-
-        if(game.getCurrentTurn() == game.getWhitePlayer()){
-            blackTimer.setStyle("-fx-background-color: #d1e5eb;");
-            label2.setStrokeWidth(0);
-            blackTime.setFont(new Font(13));
-
-            whiteTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
-            label1.setStroke(Color.BLACK);
-            label1.setStrokeWidth(.5);
-            whiteTime.setFont(new Font(15));
-            blackClockTimeline.pause();
-            whiteClockTimeline.play();
-
-        }
-        else if(game.getCurrentTurn() == game.getBlackPlayer()){
-            whiteTimer.setStyle("-fx-background-color: #d1e5eb;");
-            label1.setStrokeWidth(0);
-            whiteTime.setFont(new Font(13));
-
-            blackTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
-            label2.setStroke(Color.BLACK);
-            label2.setStrokeWidth(.5);
-            blackTime.setFont(new Font(15));
-            whiteClockTimeline.pause();
-            blackClockTimeline.play();
-        }
+        checkPlayerStatus();
 
         // complete setup
         Scene scene = new Scene(main);
@@ -177,16 +154,18 @@ public class ChessGUI extends Application {
              boolean ans = game.playerMove(game.getCurrentTurn(), selected.get(0).getBox(), bp.getBox());
              if(ans){
                  selected.get(0).setSelected(false);
+                 selected.get(0).updated();
                  selected.clear();
              }
          }
          // Check if piece is the same color as previously selected piece, if so remove past piece from selected and select new piece
-         else if(selected.get(0).getBox().getPiece().getColor() == bp.getBox().getPiece().getColor()){
+         else if(!selected.isEmpty() && selected.get(0).getBox().getPiece().getColor() == bp.getBox().getPiece().getColor()){
              selected.get(0).setSelected(false);
              selected.clear();
              selected.add(bp);
              bp.setSelected(true);
          }
+         bp.updated();
     }
 
     // Event handling for timer running out or ending game
@@ -235,6 +214,37 @@ public class ChessGUI extends Application {
                 game.setStatus(Game.GameMode.WHITE_WIN);
                 blackClockTimeline.stop();
             }
+        }
+    }
+
+    /**
+     * Checks and alters which timer is running based on the current player
+     */
+    public void checkPlayerStatus(){
+        if(game.getCurrentTurn() == game.getWhitePlayer()){
+            blackTimer.setStyle("-fx-background-color: #d1e5eb;");
+            label2.setStrokeWidth(0);
+            blackTime.setFont(new Font(13));
+
+            whiteTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
+            label1.setStroke(Color.BLACK);
+            label1.setStrokeWidth(.5);
+            whiteTime.setFont(new Font(15));
+            blackClockTimeline.pause();
+            whiteClockTimeline.play();
+
+        }
+        else if(game.getCurrentTurn() == game.getBlackPlayer()){
+            whiteTimer.setStyle("-fx-background-color: #d1e5eb;");
+            label1.setStrokeWidth(0);
+            whiteTime.setFont(new Font(13));
+
+            blackTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
+            label2.setStroke(Color.BLACK);
+            label2.setStrokeWidth(.5);
+            blackTime.setFont(new Font(15));
+            whiteClockTimeline.pause();
+            blackClockTimeline.play();
         }
     }
 

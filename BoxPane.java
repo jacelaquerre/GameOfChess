@@ -10,6 +10,7 @@ import java.util.Optional;
 public class BoxPane  extends HBox{
     private Box box;
     private boolean selected;
+    private Text type;
 
     public BoxPane(Box b){
         super();
@@ -25,13 +26,17 @@ public class BoxPane  extends HBox{
         }
 
         if(b.getPiece() != null) {
-            Text type = new Text(b.getPiece().getShape());
+            type = new Text(b.getPiece().getShape());
             type.setFont(new Font(50));
             if(box.getPiece().getColor() == Piece.Color.WHITE) {
                 type.setStyle("-fx-fill: white;");
             }
-            this.getChildren().add(type);
         }
+        else{
+            type = new Text("");
+            type.setFont(new Font(50));
+        }
+        this.getChildren().add(type);
     }
 
     /**
@@ -80,6 +85,32 @@ public class BoxPane  extends HBox{
 
     public int getCol() {
         return box.getY();
+    }
+
+    public void updated(){
+        this.setAlignment(Pos.CENTER);
+        this.setPrefSize(100,100);
+        if((box.getX() + box.getY()) % 2 == 0){
+            this.setStyle("-fx-background-color: #534437;");
+        }
+        else{
+            this.setStyle("-fx-background-color: #e7c79f;");
+        }
+
+        if(box.getPiece() != null) {
+            type = new Text(box.getPiece().getShape());
+            type.setFont(new Font(50));
+            if(box.getPiece().getColor() == Piece.Color.WHITE) {
+                type.setStyle("-fx-fill: white;");
+            }
+        }
+        else{
+            type = new Text("");
+            type.setFont(new Font(50));
+        }
+        this.getChildren().clear();
+        this.getChildren().add(type);
+
     }
 
 }
