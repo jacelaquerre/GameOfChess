@@ -37,10 +37,10 @@ public class ChessGUI extends Application {
     private Game game; // The game
     private GridPane grid; // grid of boxes
     private BorderPane main; // main layout
-    private Button newGame, endGame;
-    private VBox extra, whiteTimer, blackTimer; ;
+    private Button newGameBtn, endGameBtn;
+    private VBox extra, whiteTimer, blackTimer, buttonPane;
     private HBox timers;
-    private Text whiteTime, blackTime;
+    private Text whiteTime, blackTime, label1, label2;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
     private Timeline whiteClockTimeline, blackClockTimeline;
     private ArrayList<BoxPane> selected;
@@ -51,10 +51,14 @@ public class ChessGUI extends Application {
         // Set up Panes
         main = new BorderPane();
         extra = new VBox(30);
-        extra.setStyle("-fx-background-color: LIGHTBLUE");
+        extra.setStyle("-fx-background-color: #6f88aa;");
         extra.setMinWidth(200);
         extra.setPadding(new Insets(20, 20, 20, 20));
         main.setLeft(extra);
+        buttonPane = new VBox(30);
+        buttonPane.setPadding(new Insets(20,20,20,20));
+        buttonPane.setStyle("-fx-background-color: #953939;");
+        main.setRight(buttonPane);
 
         grid = new GridPane();
 
@@ -66,8 +70,14 @@ public class ChessGUI extends Application {
         main.setCenter(grid);
 
         // New Game Button
+        newGameBtn =  new Button("New Game");
+        newGameBtn.setOnAction(this::newGame);
+        buttonPane.getChildren().add(newGameBtn);
 
         // End Game Button
+        endGameBtn = new Button("End Game");
+        endGameBtn.setOnAction(this::handleEnd);
+        buttonPane.getChildren().add(endGameBtn);
 
         // Set up timers
         whiteTime = new Text("10:00");
@@ -82,7 +92,7 @@ public class ChessGUI extends Application {
         whiteTimer = new VBox(10);
         whiteTimer.setAlignment(Pos.CENTER);
         whiteTimer.setPadding(new Insets(5,5,5,5));
-        Text label1 = new Text("Player 1");
+        label1 = new Text("Player 1");
         whiteTimer.getChildren().addAll(label1, whiteTime);
 
         blackTime = new Text("10:00");
@@ -97,7 +107,7 @@ public class ChessGUI extends Application {
         blackTimer = new VBox(10);
         blackTimer.setAlignment(Pos.CENTER);
         blackTimer.setPadding(new Insets(5,5,5,5));
-        Text label2 = new Text("Player 2");
+        label2 = new Text("Player 2");
         blackTimer.getChildren().addAll(label2, blackTime);
 
         timers = new HBox(10);
@@ -181,8 +191,27 @@ public class ChessGUI extends Application {
 
     // Event handling for timer running out or ending game
     public void handleEnd(ActionEvent e){
-
+        for(Node pane : grid.getChildren()){
+            pane.setOnMouseClicked(null);
+        }
+        blackClockTimeline.pause();
+        whiteClockTimeline.pause();
     }
+
+    // Event Handling for press of new game
+    public void newGame(ActionEvent e){
+        game = new Game();
+        drawBoard();
+        bMins = 10;
+        bSecs = 0;
+        wMins = 10;
+        wSecs = 0;
+        whiteTime = new Text("10:00");
+        blackTime = new Text("10:00");
+        whiteClockTimeline.play();
+        blackClockTimeline.pause();
+    }
+    //
 
     public void changeTime(Text txt, Piece.Color team) {
         if (team == Piece.Color.WHITE){
