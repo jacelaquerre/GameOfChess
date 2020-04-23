@@ -156,6 +156,7 @@ public class ChessGUI extends Application {
                  selected.get(0).setSelected(false);
                  selected.get(0).updated();
                  selected.clear();
+                 bp.updated();
              }
          }
          // Check if piece is the same color as previously selected piece, if so remove past piece from selected and select new piece
@@ -165,7 +166,6 @@ public class ChessGUI extends Application {
              selected.add(bp);
              bp.setSelected(true);
          }
-         bp.updated();
     }
 
     // Event handling for timer running out or ending game
