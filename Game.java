@@ -102,6 +102,7 @@ public class Game {
         this.pieceKilled = pieceKilled;
     }
 
+    // This function initializes the game
     public void startGame() {
         status = GameMode.ACTIVE;
         Player black = blackPlayer;
@@ -118,14 +119,20 @@ public class Game {
         }
     }
 
+    // This function provides logic for the game
+    // Moving Pieces, determining winners, back-and-forth between players
     public boolean playerMove(Player currPlayer, Box start, Box end) {
         pieceMoved = start.getPiece();
+        // Check if the move is valid
         if (pieceMoved.validMove(start, end)) {
+            // Check if the end Box has a Piece or not
             if (end.getPiece() != null) {
                 if (end.getPiece().getColor() != pieceMoved.getColor()) {
                     pieceKilled = end.getPiece();
                     pieceKilled.setAlive(false);
+                    // Check if the Piece killed is a King
                     if (pieceKilled instanceof King) {
+                        // Set winner and end game
                         if (currPlayer == whitePlayer) {
                             status = GameMode.WHITE_WIN;
                             whitePlayer.setWinner(true);
@@ -136,9 +143,11 @@ public class Game {
                     }
                 }
             }
+            // Move Piece and make last Box null
             end.setPiece(pieceMoved);
             pieceKilled = null;
             start.setPiece(null);
+            // Switch which players turn it is
             if (currPlayer == whitePlayer) {
                 currentTurn = blackPlayer;
                 blackPlayer.setTurn(true);

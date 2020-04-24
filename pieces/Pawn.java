@@ -18,9 +18,11 @@ public class Pawn extends Piece {
             return firstMove(y, x, curr, goTo);
         }
 
+        // Logic for a regular pawn movement, 1 box forward
         if ((y == 1) && (x == 0) && (goTo.getPiece() == null) && (backwardMove(curr, goTo))) {
             return true;
         }
+        // Logic for if the pawn is making a kill
         if ((x == 1 && y == 1) && (goTo.getPiece().getColor() != curr.getPiece().getColor())
                 && (backwardMove(curr, goTo))) {
             return true;
@@ -39,6 +41,8 @@ public class Pawn extends Piece {
             return true;
         }
     }
+
+    // Function to return if the pawn's first move is valid
     public boolean firstMove(int y, int x, Box curr, Box goTo) {
         if(y == 1) {
             if(x == 0 && goTo.getPiece() == null) {
