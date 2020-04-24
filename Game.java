@@ -16,6 +16,8 @@ public class Game {
     private Piece pieceMoved;
     private Piece pieceKilled;
 
+    Stockfish stockfish = new Stockfish();
+
     public Game(){
         this.startGame();
     }
@@ -157,9 +159,18 @@ public class Game {
                 blackPlayer.setTurn(false);
                 whitePlayer.setTurn(true);
             }
+            getAiMove();
             return true;
         }
         return false;
+    }
+
+    public boolean getAiMove() {
+        stockfish.startEngine("./stockfish_windows.exe"); // should be moved to only called once
+        System.out.println(board.getFen("b"));
+        System.out.println(stockfish.getBestMove(board.getFen("b"), 20)); //b makes tells ai to make a move for black
+
+        return true;
     }
 
     // Function to take in timer, if game is too long, set as tie

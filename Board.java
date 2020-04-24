@@ -53,4 +53,72 @@ public class Board {
     public Box getBox(int x, int y){
         return board[x][y];
     }
+
+    public String getFen(String turn) {
+        String fen = "";
+        for(int i = board.length - 1; i >= 0; i--) {
+            int num = 0;
+            for(int j = 0; j < board[0].length; j++) {
+                if(board[j][i].getPiece() != null && num != 0) {
+                    fen += num;
+                    num = 0;
+                }
+                if(board[j][i].getPiece() instanceof Pawn) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "P";
+                    } else {
+                        fen += "p";
+                    }
+                }
+                else if(board[j][i].getPiece() instanceof Rook) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "R";
+                    } else {
+                        fen += "r";
+                    }
+                }
+                else if(board[j][i].getPiece() instanceof Knight) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "N";
+                    } else {
+                        fen += "n";
+                    }
+                }
+                else if(board[j][i].getPiece() instanceof Bishop) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "B";
+                    } else {
+                        fen += "b";
+                    }
+                }
+                else if(board[j][i].getPiece() instanceof Queen) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "Q";
+                    } else {
+                        fen += "q";
+                    }
+                }
+                else if(board[j][i].getPiece() instanceof King) {
+                    if(board[j][i].getPiece().getColor() == Piece.Color.WHITE) {
+                        fen += "K";
+                    } else {
+                        fen += "k";
+                    }
+                }
+                else {
+                    num++;
+                }
+            }
+            if(num != 0) {
+                fen += num;
+                num = 0;
+            }
+            fen += "/";
+        }
+        fen += " " + turn;
+        fen += " -";
+        fen += " 0";
+        fen += " 1";
+        return fen;
+    }
 }
