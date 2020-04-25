@@ -34,15 +34,15 @@ import java.util.ArrayList;
 public class ChessGUI extends Application {
     private Game game; // The game
     private GridPane gameBoard; // grid of boxes
-    private BorderPane main, entryPane;// main layout
+    private BorderPane main, entryPane; // main layout
     private Button newGameBtn, endGameBtn;
     private VBox extra, whiteTimer, blackTimer, buttonPane;
-    private HBox timers, computerGame, playerGame;
-    private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle;
+    private HBox timers, computerGame, playerGame, ending;
+    private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle, endingMessage;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
     private Timeline whiteClockTimeline, blackClockTimeline;
     private ArrayList<BoxPane> selected;
-    private Scene entryScene, gameScene, endingScene, activeScene;
+    private Scene entryScene, gameScene, activeScene;
 
     @Override
     public void start(Stage primaryStage)throws Exception {
@@ -112,7 +112,7 @@ public class ChessGUI extends Application {
 
         // End Game Button
         endGameBtn = new Button("End Game");
-        endGameBtn.setOnAction(this::handleEnd);
+        endGameBtn.setOnMouseClicked(this::handleEnd);
         buttonPane.getChildren().add(endGameBtn);
 
         // Set up timers
@@ -158,7 +158,8 @@ public class ChessGUI extends Application {
 
         gameScene = new Scene(main);
 
-        /* *******************************       Ending Scene      ******************************************* */
+        ending = new HBox();
+        endingMessage = new Text("");
 
         // complete setup
         activeScene = entryScene;
@@ -172,6 +173,20 @@ public class ChessGUI extends Application {
      * the current piece moves there
      */
     public void handleClick(MouseEvent e) {
+        //TODO once user has ability to choose color adjust message
+        if(game.getStatus() == Game.GameMode.BLACK_WIN){
+            endingMessage.setText("Black Team Won!");
+            handleEnd(e);
+        }
+        else if(game.getStatus() == Game.GameMode.WHITE_WIN) {
+            endingMessage.setText("White Team Won!");
+            handleEnd(e);
+        }
+        else if(game.getStatus() == Game.GameMode.TIE){
+            endingMessage.setText("Tie Game!");
+            handleEnd(e);
+        }
+
         if (activeScene == gameScene) {
             BoxPane bp = (BoxPane) (e.getSource());
 
@@ -211,10 +226,17 @@ public class ChessGUI extends Application {
     }
 
     // Event handling for timer running out or ending game
-    public void handleEnd(ActionEvent e){
-        for(Node pane : gameBoard.getChildren()){
+    public void handleEnd(MouseEvent e){
+        for(Node pane : gameBoard.getChildren()) {
             pane.setOnMouseClicked(null);
         }
+        if(game.getStatus() == Game.GameMode.ACTIVE){
+            endingMessage.setText("You Quit the Game!");
+        }
+        endingMessage.setTextAlignment(TextAlignment.CENTER);
+        ending.getChildren().add(endingMessage);
+        ending.setAlignment(Pos.CENTER);
+        main.setBottom(ending);
         blackClockTimeline.pause();
         whiteClockTimeline.pause();
     }
@@ -232,7 +254,6 @@ public class ChessGUI extends Application {
         whiteClockTimeline.play();
         blackClockTimeline.pause();
     }
-    //
 
     public void changeTime(Text txt, Piece.Color team) {
         if (team == Piece.Color.WHITE){
