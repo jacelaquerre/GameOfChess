@@ -31,7 +31,14 @@ public class Stockfish {
     public String getBestMove(String fen, int waitTime) {
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + waitTime);
-        String out = getOutput(waitTime + 200).split("bestmove ")[1].split(" ")[0];
+        String out = "";
+        try {
+            out = getOutput(waitTime + 200).split("bestmove ")[1].split(" ")[0];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invalid move");
+            out = "_____";
+        }
+        System.out.println(out);
         return out;
     }
 
