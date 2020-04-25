@@ -40,7 +40,7 @@ public class ChessGUI extends Application {
     private HBox timers, computerGame, playerGame, ending;
     private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle, endingMessage;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
-    private Timeline whiteClockTimeline, blackClockTimeline;
+    private Timeline whiteClockTimeline, blackClockTimeline, aiMove;
     private ArrayList<BoxPane> selected;
     private Scene entryScene, gameScene, activeScene;
     private Boolean p1vp2; // Whether or not the game is player 1 vs. player 2
@@ -87,6 +87,7 @@ public class ChessGUI extends Application {
                         primaryStage.setScene(gameScene);
                         activeScene = gameScene;
                         choice = Piece.Color.BLACK;
+                        aiMove.play();
                     }
                 });
 
@@ -105,6 +106,7 @@ public class ChessGUI extends Application {
                         primaryStage.setScene(gameScene);
                         activeScene = gameScene;
                         choice = Piece.Color.WHITE;
+                        aiMove.play();
                     }
                 });
 
@@ -203,6 +205,40 @@ public class ChessGUI extends Application {
         extra.getChildren().add(timers);
         checkPlayerStatus();
 
+        aiMove = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event){
+                if(choice == Piece.Color.WHITE && game.getCurrentTurn().getColor() == Piece.Color.BLACK){
+                    int[] move = game.getAiMove("b");
+                    game.playerMove(game.getBlackPlayer(), game.getBoard().getBox(move[0],move[1]),game.getBoard().getBox(move[2],move[3]));
+                    for(Node p : gameBoard.getChildren()){
+                        BoxPane bp = (BoxPane)(p);
+                        if (bp.getCol() == move[1] && bp.getRow() == move[0]) {
+                            bp.updated();
+                        }
+                        else if(bp.getCol() == move[3] && bp.getRow() == move[2]){
+                            bp.updated();
+                        }
+                    }
+                }
+
+                if(choice == Piece.Color.BLACK && game.getCurrentTurn().getColor() == Piece.Color.WHITE){
+                    int[] move = game.getAiMove("w");
+                    game.playerMove(game.getWhitePlayer(), game.getBoard().getBox(move[0],move[1]),game.getBoard().getBox(move[2],move[3]));
+                    for(Node p : gameBoard.getChildren()){
+                        BoxPane bp = (BoxPane)(p);
+                        if (bp.getCol() == move[1] && bp.getRow() == move[0]) {
+                            bp.updated();
+                        }
+                        else if(bp.getCol() == move[3] && bp.getRow() == move[2]){
+                            bp.updated();
+                        }
+                    }
+            }
+        }}));
+        aiMove.setCycleCount(Timeline.INDEFINITE);
+        aiMove.setAutoReverse(false);
+
         gameScene = new Scene(main);
 
         ending = new HBox();
@@ -223,7 +259,7 @@ public class ChessGUI extends Application {
      * the current piece moves there
      */
     public void handleClick(MouseEvent e) {
-        if (activeScene == gameScene) {
+        if (activeScene == gameScene && game.getCurrentTurn().getColor() == choice) {
             BoxPane bp = (BoxPane) (e.getSource());
 
             // allow a user to un-select the piece
@@ -259,19 +295,19 @@ public class ChessGUI extends Application {
                 bp.setSelected(true);
             }
         }
+
         //TODO once user has ability to choose color adjust message
-        if(game.getStatus() == Game.GameMode.BLACK_WIN){
+        if (game.getStatus() == Game.GameMode.BLACK_WIN) {
             endingMessage.setText("Black Team Won!");
             handleEnd(e);
-        }
-        else if(game.getStatus() == Game.GameMode.WHITE_WIN) {
+        } else if (game.getStatus() == Game.GameMode.WHITE_WIN) {
             endingMessage.setText("White Team Won!");
             handleEnd(e);
-        }
-        else if(game.getStatus() == Game.GameMode.TIE){
+        } else if (game.getStatus() == Game.GameMode.TIE) {
             endingMessage.setText("Tie Game!");
             handleEnd(e);
         }
+
     }
 
     // Event handling for timer running out or ending game
