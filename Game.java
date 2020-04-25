@@ -174,6 +174,13 @@ public class Game {
         String move = stockfish.getBestMove(board.getFen("b"), 20); //b makes tells ai to make a move for black
         System.out.println(move);
 
+        int startX = ((int)(move.charAt(0)) - 97);
+        int startY = ((int)(move.charAt(1)) - 49);
+        int endX = ((int)(move.charAt(2)) - 97);
+        int endY = ((int)(move.charAt(3)) - 49);
+
+        System.out.println("[" + startX + " " + startY + "]");
+        System.out.println("[" + endX + " " + endY + "]");
 
         return true;
     }
