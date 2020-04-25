@@ -159,30 +159,32 @@ public class Game {
                 blackPlayer.setTurn(false);
                 whitePlayer.setTurn(true);
             }
-            getAiMove();
+            getAiMove("b");
             return true;
         }
         return false;
     }
 
-    public boolean getAiMove() {
+    //returns an array with length 4
+    //[initial board x, initial board y, final board x, final board y]
+    //takes in a string for which side to make the move for
+    //b for black w for white
+    public int[] getAiMove(String side) {
         if(System.getProperty("os.name").startsWith("Windows")) {
             stockfish.startEngine("./stockfish_windows.exe"); // should be moved to only called once
         } else {
-            stockfish.startEngine("./stockfish_mac"); // should be moved to only called once
+            stockfish.startEngine("stockfish_mac"); // should be moved to only called once
         }
-        String move = stockfish.getBestMove(board.getFen("b"), 20); //b makes tells ai to make a move for black
-        System.out.println(move);
+
+        String move = stockfish.getBestMove(board.getFen(side), 20); //b makes tells ai to make a move for black
 
         int startX = ((int)(move.charAt(0)) - 97);
         int startY = ((int)(move.charAt(1)) - 49);
         int endX = ((int)(move.charAt(2)) - 97);
         int endY = ((int)(move.charAt(3)) - 49);
+        int[] moves = {startX, startY, endX, endY};
 
-        System.out.println("[" + startX + " " + startY + "]");
-        System.out.println("[" + endX + " " + endY + "]");
-
-        return true;
+        return moves;
     }
 
     // Function to take in timer, if game is too long, set as tie
