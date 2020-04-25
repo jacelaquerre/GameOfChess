@@ -43,6 +43,8 @@ public class ChessGUI extends Application {
     private Timeline whiteClockTimeline, blackClockTimeline;
     private ArrayList<BoxPane> selected;
     private Scene entryScene, gameScene, activeScene;
+    private Boolean p1vp2; // Whether or not the game is player 1 vs. player 2
+    private Piece.Color choice; // color user chooses to play as
 
     @Override
     public void start(Stage primaryStage)throws Exception {
@@ -62,11 +64,54 @@ public class ChessGUI extends Application {
         playerGame.getChildren().add(playerGameLabel);
         computerGame.setPadding(new Insets(10,10,10,50));
         playerGame.setPadding(new Insets(10,50,10,10));
+
         computerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                primaryStage.setScene(gameScene);
-                activeScene = gameScene;
+                p1vp2 = false;
+                Text prompt =  new Text("Choose your Team");
+                prompt.setFont(new Font(30));
+                prompt.setTextAlignment(TextAlignment.CENTER);
+                HBox blackBox = new HBox();
+                blackBox.setAlignment(Pos.CENTER);
+                blackBox.setStyle("-fx-background-color: black;");
+                Text blackL = new Text("Black?");
+                blackL.setTextAlignment(TextAlignment.CENTER);
+                blackL.setFont(new Font(30));
+                blackL.setStyle("-fx-fill: white;");
+                blackBox.getChildren().add(blackL);
+                blackBox.setPadding(new Insets(5,5,5,5));
+                blackBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        primaryStage.setScene(gameScene);
+                        activeScene = gameScene;
+                        choice = Piece.Color.BLACK;
+                    }
+                });
+
+                HBox whiteBox = new HBox();
+                whiteBox.setAlignment(Pos.CENTER);
+                whiteBox.setStyle("-fx-background-color: white");
+                Text whiteL = new Text("White?");
+                whiteL.setTextAlignment(TextAlignment.CENTER);
+                whiteL.setFont(new Font(30));
+                whiteL.setStyle("-fx-fill: black;");
+                whiteBox.getChildren().add(whiteL);
+                whiteBox.setPadding(new Insets(5,5,5,5));
+                whiteBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        primaryStage.setScene(gameScene);
+                        activeScene = gameScene;
+                        choice = Piece.Color.WHITE;
+                    }
+                });
+
+                entryPane.getChildren().clear();
+                entryPane.setTop(prompt);
+                entryPane.setLeft(blackBox);
+                entryPane.setRight(whiteBox);
             }
         });
         playerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -81,7 +126,9 @@ public class ChessGUI extends Application {
         entryPane.setTop(entryTitle);
         entryPane.setLeft(computerGame);
         entryPane.setRight(playerGame);
+        //entryPane.setMinSize(200,200);
         entryScene = new Scene(entryPane);
+        activeScene = entryScene;
 
         /* *******************************       Main Scene      ******************************************* */
         // Set up Panes
@@ -166,7 +213,6 @@ public class ChessGUI extends Application {
         main.setBottom(ending);
 
         // complete setup
-        activeScene = entryScene;
         primaryStage.setScene(activeScene);
         primaryStage.show();
     }
@@ -282,6 +328,7 @@ public class ChessGUI extends Application {
 
     /**
      * Checks and alters which timer is running based on the current player
+     * TODO: Fix timer so that it only starts when the user gets to the game board
      */
     public void checkPlayerStatus(){
         if(game.getCurrentTurn() == game.getWhitePlayer()){
