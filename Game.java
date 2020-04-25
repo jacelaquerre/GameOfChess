@@ -169,7 +169,7 @@ public class Game {
         if(System.getProperty("os.name").startsWith("Windows")) {
             stockfish.startEngine("./stockfish_windows.exe"); // should be moved to only called once
         } else {
-            stockfish.startEngine("./stockfish_mac"); // should be moved to only called once
+            stockfish.startEngine("stockfish_mac"); // should be moved to only called once
         }
         String move = stockfish.getBestMove(board.getFen("b"), 20); //b makes tells ai to make a move for black
         System.out.println(move);
