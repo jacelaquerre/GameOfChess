@@ -119,6 +119,7 @@ public class ChessGUI extends Application {
         playerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                p1vp2 = true;
                 primaryStage.setScene(gameScene);
                 activeScene = gameScene;
             }
@@ -259,7 +260,7 @@ public class ChessGUI extends Application {
      * the current piece moves there
      */
     public void handleClick(MouseEvent e) {
-        if (activeScene == gameScene && game.getCurrentTurn().getColor() == choice) {
+        if (activeScene == gameScene && (p1vp2 || choice == game.getCurrentTurn().getColor())) {
             BoxPane bp = (BoxPane) (e.getSource());
 
             // allow a user to un-select the piece
@@ -307,7 +308,6 @@ public class ChessGUI extends Application {
             endingMessage.setText("Tie Game!");
             handleEnd(e);
         }
-
     }
 
     // Event handling for timer running out or ending game
