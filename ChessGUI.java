@@ -173,20 +173,6 @@ public class ChessGUI extends Application {
      * the current piece moves there
      */
     public void handleClick(MouseEvent e) {
-        //TODO once user has ability to choose color adjust message
-        if(game.getStatus() == Game.GameMode.BLACK_WIN){
-            endingMessage.setText("Black Team Won!");
-            handleEnd(e);
-        }
-        else if(game.getStatus() == Game.GameMode.WHITE_WIN) {
-            endingMessage.setText("White Team Won!");
-            handleEnd(e);
-        }
-        else if(game.getStatus() == Game.GameMode.TIE){
-            endingMessage.setText("Tie Game!");
-            handleEnd(e);
-        }
-
         if (activeScene == gameScene) {
             BoxPane bp = (BoxPane) (e.getSource());
 
@@ -222,6 +208,19 @@ public class ChessGUI extends Application {
                 selected.add(bp);
                 bp.setSelected(true);
             }
+        }
+        //TODO once user has ability to choose color adjust message
+        if(game.getStatus() == Game.GameMode.BLACK_WIN){
+            endingMessage.setText("Black Team Won!");
+            handleEnd(e);
+        }
+        else if(game.getStatus() == Game.GameMode.WHITE_WIN) {
+            endingMessage.setText("White Team Won!");
+            handleEnd(e);
+        }
+        else if(game.getStatus() == Game.GameMode.TIE){
+            endingMessage.setText("Tie Game!");
+            handleEnd(e);
         }
     }
 
