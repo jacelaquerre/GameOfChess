@@ -5,6 +5,7 @@
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
@@ -25,29 +26,64 @@ import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-import javafx.animation.Animation;
-import javafx.scene.shape.*;
 import javafx.util.Duration;
-import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 
-
+// TODO: Find out why second scene is moved off center and correct it
 public class ChessGUI extends Application {
     private Game game; // The game
-    private GridPane grid; // grid of boxes
-    private BorderPane main; // main layout
+    private GridPane gameBoard; // grid of boxes
+    private BorderPane main, entryPane;// main layout
     private Button newGameBtn, endGameBtn;
     private VBox extra, whiteTimer, blackTimer, buttonPane;
-    private HBox timers;
-    private Text whiteTime, blackTime, label1, label2;
+    private HBox timers, computerGame, playerGame;
+    private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
     private Timeline whiteClockTimeline, blackClockTimeline;
     private ArrayList<BoxPane> selected;
+    private Scene entryScene, gameScene, endingScene, activeScene;
 
     @Override
     public void start(Stage primaryStage)throws Exception {
-        primaryStage.setTitle("Chess");
+        primaryStage.setTitle("Chess Game");
+
+        /* *******************************       Entry Scene      ******************************************* */
+        // TODO: Alter the kind of game once the AI is working and make it prettier
+        computerGameLabel = new Text("Player 1\nvs.\nComputer");
+        playerGameLabel = new Text("Player 1\nvs.\nPlayer 2");
+        computerGameLabel.setTextAlignment(TextAlignment.CENTER);
+        playerGameLabel.setTextAlignment(TextAlignment.CENTER);
+        entryTitle = new Text(" New Game? ");
+        entryTitle.setFont(new Font(50));
+        computerGame = new HBox();
+        playerGame = new HBox();
+        computerGame.getChildren().add(computerGameLabel);
+        playerGame.getChildren().add(playerGameLabel);
+        computerGame.setPadding(new Insets(10,10,10,50));
+        playerGame.setPadding(new Insets(10,50,10,10));
+        computerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                primaryStage.setScene(gameScene);
+                activeScene = gameScene;
+            }
+        });
+        playerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                primaryStage.setScene(gameScene);
+                activeScene = gameScene;
+            }
+        });
+
+        entryPane = new BorderPane();
+        entryPane.setTop(entryTitle);
+        entryPane.setLeft(computerGame);
+        entryPane.setRight(playerGame);
+        entryScene = new Scene(entryPane);
+
+        /* *******************************       Main Scene      ******************************************* */
         // Set up Panes
         main = new BorderPane();
         extra = new VBox(30);
@@ -60,14 +96,14 @@ public class ChessGUI extends Application {
         buttonPane.setStyle("-fx-background-color: #7b5954;");
         main.setRight(buttonPane);
 
-        grid = new GridPane();
-        grid.setStyle("-fx-background-color:#392f2a;" + "-fx-border-color: #392f2a;" + "-fx-border-width: 10;");
+        gameBoard = new GridPane();
+        gameBoard.setStyle("-fx-background-color:#392f2a;" + "-fx-border-color: #392f2a;" + "-fx-border-width: 10;");
 
         // Initialize game and draw Board
         game = new Game();
         drawBoard();
         selected = new ArrayList<BoxPane>();
-        main.setCenter(grid);
+        main.setCenter(gameBoard);
 
         // New Game Button
         newGameBtn =  new Button("New Game");
@@ -93,8 +129,8 @@ public class ChessGUI extends Application {
         whiteTimer = new VBox(10);
         whiteTimer.setAlignment(Pos.CENTER);
         whiteTimer.setPadding(new Insets(5,5,5,5));
-        label1 = new Text("Player 1");
-        whiteTimer.getChildren().addAll(label1, whiteTime);
+        whiteLabel = new Text("Player 1");
+        whiteTimer.getChildren().addAll(whiteLabel, whiteTime);
 
         blackTime = new Text("10:00");
         blackClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
@@ -109,8 +145,8 @@ public class ChessGUI extends Application {
         blackTimer = new VBox(10);
         blackTimer.setAlignment(Pos.CENTER);
         blackTimer.setPadding(new Insets(5,5,5,5));
-        label2 = new Text("Player 2");
-        blackTimer.getChildren().addAll(label2, blackTime);
+        blackLabel = new Text("Player 2");
+        blackTimer.getChildren().addAll(blackLabel, blackTime);
 
         timers = new HBox(10);
         timers.setAlignment(Pos.CENTER);
@@ -120,9 +156,13 @@ public class ChessGUI extends Application {
         extra.getChildren().add(timers);
         checkPlayerStatus();
 
+        gameScene = new Scene(main);
+
+        /* *******************************       Ending Scene      ******************************************* */
+
         // complete setup
-        Scene scene = new Scene(main);
-        primaryStage.setScene(scene);
+        activeScene = entryScene;
+        primaryStage.setScene(activeScene);
         primaryStage.show();
     }
 
@@ -131,46 +171,48 @@ public class ChessGUI extends Application {
      * User should only be able to select one tile. Once another tile is clicked, if it is a valid move,
      * the current piece moves there
      */
-    public void handleClick(MouseEvent e){
-         BoxPane bp =(BoxPane)(e.getSource());
+    public void handleClick(MouseEvent e) {
+        if (activeScene == gameScene) {
+            BoxPane bp = (BoxPane) (e.getSource());
 
-         // allow a user to un-select the piece
-         if(bp.isSelected()){
-             bp.setSelected(false);
-             selected.remove(bp);
-         }
-         // if color of piece aligns with current team and no other piece is selected allow click
-         else if(bp.getBox().getPiece()!= null && selected.isEmpty()) {
-             if (bp.getBox().getPiece().getColor() == Piece.Color.WHITE && game.getCurrentTurn() == game.getWhitePlayer()) {
-                 bp.setSelected(true);
-                 selected.add(bp);
-             } else if (bp.getBox().getPiece().getColor() == Piece.Color.BLACK && game.getCurrentTurn() == game.getBlackPlayer()) {
-                 bp.setSelected(true);
-                 selected.add(bp);
-             }
-         }
-         // if box is empty or holds an opponent piece check to see if it is a valid move
-         else if((bp.getBox().getPiece() == null || bp.getBox().getPiece().getColor() != game.getCurrentTurn().getColor()) && !selected.isEmpty()){
-             boolean ans = game.playerMove(game.getCurrentTurn(), selected.get(0).getBox(), bp.getBox());
-             if(ans){
-                 selected.get(0).setSelected(false);
-                 selected.get(0).updated();
-                 selected.clear();
-                 bp.updated();
-             }
-         }
-         // Check if piece is the same color as previously selected piece, if so remove past piece from selected and select new piece
-         else if(!selected.isEmpty() && selected.get(0).getBox().getPiece().getColor() == bp.getBox().getPiece().getColor()){
-             selected.get(0).setSelected(false);
-             selected.clear();
-             selected.add(bp);
-             bp.setSelected(true);
-         }
+            // allow a user to un-select the piece
+            if (bp.isSelected()) {
+                bp.setSelected(false);
+                selected.remove(bp);
+            }
+            // if color of piece aligns with current team and no other piece is selected allow click
+            else if (bp.getBox().getPiece() != null && selected.isEmpty()) {
+                if (bp.getBox().getPiece().getColor() == Piece.Color.WHITE && game.getCurrentTurn() == game.getWhitePlayer()) {
+                    bp.setSelected(true);
+                    selected.add(bp);
+                } else if (bp.getBox().getPiece().getColor() == Piece.Color.BLACK && game.getCurrentTurn() == game.getBlackPlayer()) {
+                    bp.setSelected(true);
+                    selected.add(bp);
+                }
+            }
+            // if box is empty or holds an opponent piece check to see if it is a valid move
+            else if ((bp.getBox().getPiece() == null || bp.getBox().getPiece().getColor() != game.getCurrentTurn().getColor()) && !selected.isEmpty()) {
+                boolean ans = game.playerMove(game.getCurrentTurn(), selected.get(0).getBox(), bp.getBox());
+                if (ans) {
+                    selected.get(0).setSelected(false);
+                    selected.get(0).updated();
+                    selected.clear();
+                    bp.updated();
+                }
+            }
+            // Check if piece is the same color as previously selected piece, if so remove past piece from selected and select new piece
+            else if (!selected.isEmpty() && selected.get(0).getBox().getPiece().getColor() == bp.getBox().getPiece().getColor()) {
+                selected.get(0).setSelected(false);
+                selected.clear();
+                selected.add(bp);
+                bp.setSelected(true);
+            }
+        }
     }
 
     // Event handling for timer running out or ending game
     public void handleEnd(ActionEvent e){
-        for(Node pane : grid.getChildren()){
+        for(Node pane : gameBoard.getChildren()){
             pane.setOnMouseClicked(null);
         }
         blackClockTimeline.pause();
@@ -223,12 +265,12 @@ public class ChessGUI extends Application {
     public void checkPlayerStatus(){
         if(game.getCurrentTurn() == game.getWhitePlayer()){
             blackTimer.setStyle("-fx-background-color: #d1e5eb;");
-            label2.setStrokeWidth(0);
+            blackLabel.setStrokeWidth(0);
             blackTime.setFont(new Font(13));
 
             whiteTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
-            label1.setStroke(Color.BLACK);
-            label1.setStrokeWidth(.5);
+            whiteLabel.setStroke(Color.BLACK);
+            whiteLabel.setStrokeWidth(.5);
             whiteTime.setFont(new Font(15));
             blackClockTimeline.pause();
             whiteClockTimeline.play();
@@ -236,12 +278,12 @@ public class ChessGUI extends Application {
         }
         else if(game.getCurrentTurn() == game.getBlackPlayer()){
             whiteTimer.setStyle("-fx-background-color: #d1e5eb;");
-            label1.setStrokeWidth(0);
+            whiteLabel.setStrokeWidth(0);
             whiteTime.setFont(new Font(13));
 
             blackTimer.setStyle("-fx-background-color: #ec8f90;" + "-fx-border-width:2;"+"-fx-border-color: #e1577a;");
-            label2.setStroke(Color.BLACK);
-            label2.setStrokeWidth(.5);
+            blackLabel.setStroke(Color.BLACK);
+            blackLabel.setStrokeWidth(.5);
             blackTime.setFont(new Font(15));
             whiteClockTimeline.pause();
             blackClockTimeline.play();
@@ -250,12 +292,12 @@ public class ChessGUI extends Application {
 
     // Draws the board
     public void drawBoard() {
-        grid.getChildren().clear(); // clears the board
+        gameBoard.getChildren().clear(); // clears the board
         for (int r = 0; r < 8; ++r) {
             for (int c = 0; c <8; c++) {
                 BoxPane bp = new BoxPane(game.getBoard(),r,c);
                 bp.setOnMouseClicked(this::handleClick);
-                grid.add(bp,r,c);
+                gameBoard.add(bp,r,c);
             }
         }
     }
