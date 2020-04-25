@@ -160,6 +160,10 @@ public class ChessGUI extends Application {
 
         ending = new HBox();
         endingMessage = new Text("");
+        endingMessage.setTextAlignment(TextAlignment.CENTER);
+        ending.getChildren().add(endingMessage);
+        ending.setAlignment(Pos.CENTER);
+        main.setBottom(ending);
 
         // complete setup
         activeScene = entryScene;
@@ -232,10 +236,6 @@ public class ChessGUI extends Application {
         if(game.getStatus() == Game.GameMode.ACTIVE){
             endingMessage.setText("You Quit the Game!");
         }
-        endingMessage.setTextAlignment(TextAlignment.CENTER);
-        ending.getChildren().add(endingMessage);
-        ending.setAlignment(Pos.CENTER);
-        main.setBottom(ending);
         blackClockTimeline.pause();
         whiteClockTimeline.pause();
     }
@@ -252,6 +252,7 @@ public class ChessGUI extends Application {
         blackTime = new Text("10:00");
         whiteClockTimeline.play();
         blackClockTimeline.pause();
+        endingMessage.setText("");
     }
 
     public void changeTime(Text txt, Piece.Color team) {
