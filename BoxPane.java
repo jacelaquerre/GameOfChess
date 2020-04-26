@@ -1,11 +1,8 @@
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.geometry.Pos;
-import java.util.Optional;
+
 
 public class BoxPane  extends HBox{
     private Box box;
@@ -51,7 +48,7 @@ public class BoxPane  extends HBox{
 
     /**
      * Method setSelected changes the appearance of the box
-     * @param: pressed, box is set as selected is true, set as unselected otherwise
+     * @param pressed, box is set as selected is true, set as unselected otherwise
      */
     public void setSelected(boolean pressed){
         this.selected = pressed;

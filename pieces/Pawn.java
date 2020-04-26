@@ -23,11 +23,8 @@ public class Pawn extends Piece {
             return true;
         }
         // Logic for if the pawn is making a kill
-        if ((x == 1 && y == 1) && (goTo.getPiece().getColor() != curr.getPiece().getColor())
-                && (backwardMove(curr, goTo))) {
-            return true;
-        }
-        return false;
+        return (x == 1 && y == 1) && (goTo.getPiece().getColor() != curr.getPiece().getColor())
+                && (backwardMove(curr, goTo));
     }
 
     // Returns false if the move is forward, true if it is not
@@ -35,11 +32,7 @@ public class Pawn extends Piece {
         if (curr.getPiece().getColor() == Piece.Color.WHITE && curr.getY() > goTo.getY()) {
             return false;
         }
-        else if (curr.getPiece().getColor() == Piece.Color.BLACK && curr.getY() < goTo.getY()) {
-            return false;
-        } else {
-            return true;
-        }
+        else return curr.getPiece().getColor() != Color.BLACK || curr.getY() >= goTo.getY();
     }
 
     // Function to return if the pawn's first move is valid
@@ -54,9 +47,7 @@ public class Pawn extends Piece {
 
         }
         if (y == 2) {
-            if (x == 0 && goTo.getPiece() == null) {
-                return true;
-            }
+            return x == 0 && goTo.getPiece() == null;
         }
         return false;
     }

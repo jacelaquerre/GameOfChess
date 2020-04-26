@@ -8,11 +8,6 @@ public class Knight extends Piece {
     public boolean validMove(Box curr, Box goTo) {
         int x = Math.abs(curr.getX() - goTo.getX());
         int y = Math.abs(curr.getY() - goTo.getY());
-        if (x * y == 2) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return x * y == 2;
     }
 }

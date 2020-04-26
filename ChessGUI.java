@@ -1,10 +1,9 @@
-/**
- * Chess Game GUI
- * Interactive display for Chess game
+/*
+  Chess Game GUI
+  Interactive display for Chess game
  */
 
 import javafx.application.Application;
-import javafx.geometry.VPos;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -29,8 +28,6 @@ import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-
-import static javafx.scene.paint.Color.color;
 
 // TODO: Find out why second scene is moved off center and correct it
 public class ChessGUI extends Application {
@@ -67,32 +64,32 @@ public class ChessGUI extends Application {
         computerGame = new HBox();
         computerGame.setAlignment(Pos.CENTER);
         computerGame.setStyle("-fx-background-color: #35414a;");
-        computerGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        computerGame.setOnMouseEntered(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                computerGame.setStyle("-fx-background-color: #6d7c7b;"+ "-fx-border-color: #d88888;" + "-fx-border-width: 5");
+                computerGame.setStyle("-fx-background-color: #6d7c7b;" + "-fx-border-color: #d88888;" + "-fx-border-width: 5");
             }
         });
-        computerGame.setOnMouseExited(new EventHandler<MouseEvent>() {
+        computerGame.setOnMouseExited(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                computerGame.setStyle("-fx-background-color: #35414a;" );
+                computerGame.setStyle("-fx-background-color: #35414a;");
 
             }
         });
         playerGame = new HBox();
         playerGame.setAlignment(Pos.CENTER);
         playerGame.setStyle("-fx-background-color: #35414a;");
-        playerGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        playerGame.setOnMouseEntered(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                playerGame.setStyle("-fx-background-color: #6d7c7b;"+ "-fx-border-color: #d88888;" + "-fx-border-width: 5");
+                playerGame.setStyle("-fx-background-color: #6d7c7b;" + "-fx-border-color: #d88888;" + "-fx-border-width: 5");
             }
         });
-        playerGame.setOnMouseExited(new EventHandler<MouseEvent>() {
+        playerGame.setOnMouseExited(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                playerGame.setStyle("-fx-background-color: #35414a;" );
+                playerGame.setStyle("-fx-background-color: #35414a;");
 
             }
         });
@@ -107,11 +104,11 @@ public class ChessGUI extends Application {
         buttons.setPadding(new Insets(10,10,10,10));
         buttons.getChildren().addAll(computerGame, playerGame);
 
-        computerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        computerGame.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 p1vp2 = false;
-                Text prompt =  new Text("");
+                Text prompt = new Text("");
                 prompt.setFont(new Font(50));
                 prompt.setTextAlignment(TextAlignment.CENTER);
 
@@ -123,23 +120,23 @@ public class ChessGUI extends Application {
                 blackL.setFont(new Font(30));
                 blackL.setStyle("-fx-fill: white;");
                 blackBox.getChildren().add(blackL);
-                blackBox.setPadding(new Insets(10,10,10,10));
-                blackBox.setMinSize(120,120);
-                blackBox.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                blackBox.setPadding(new Insets(10, 10, 10, 10));
+                blackBox.setMinSize(120, 120);
+                blackBox.setOnMouseEntered(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         blackBox.setStyle("-fx-background-color: grey;");
                         //blackL.setStyle("-fx-fill: black;");
                     }
                 });
-                blackBox.setOnMouseExited(new EventHandler<MouseEvent>() {
+                blackBox.setOnMouseExited(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         blackBox.setStyle("-fx-background-color: black;");
                         //blackL.setStyle("-fx-fill: white;");
                     }
                 });
-                blackBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                blackBox.setOnMouseClicked(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         primaryStage.setScene(gameScene);
@@ -157,23 +154,21 @@ public class ChessGUI extends Application {
                 whiteL.setFont(new Font(30));
                 whiteL.setStyle("-fx-fill: black;");
                 whiteBox.getChildren().add(whiteL);
-                whiteBox.setPadding(new Insets(10,10,10,10));
-                whiteBox.setMinSize(120,120);
-                whiteBox.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                whiteBox.setPadding(new Insets(10, 10, 10, 10));
+                whiteBox.setMinSize(120, 120);
+                whiteBox.setOnMouseEntered(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         whiteBox.setStyle("-fx-background-color: grey;");
-                        //whiteL.setStyle("-fx-fill: white;");
                     }
                 });
-                whiteBox.setOnMouseExited(new EventHandler<MouseEvent>() {
+                whiteBox.setOnMouseExited(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         whiteBox.setStyle("-fx-background-color: white;");
-                       // whiteL.setStyle("-fx-fill: Black;");
                     }
                 });
-                whiteBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                whiteBox.setOnMouseClicked(new EventHandler<>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         primaryStage.setScene(gameScene);
@@ -191,7 +186,7 @@ public class ChessGUI extends Application {
 
             }
         });
-        playerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        playerGame.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 p1vp2 = true;
@@ -227,7 +222,7 @@ public class ChessGUI extends Application {
         // Initialize game and draw Board
         game = new Game();
         drawBoard();
-        selected = new ArrayList<BoxPane>();
+        selected = new ArrayList<>();
         main.setCenter(gameBoard);
 
         // New Game Button
@@ -242,7 +237,7 @@ public class ChessGUI extends Application {
 
         // Set up timers
         whiteTime = new Text("10:00");
-        whiteClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+        whiteClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
                 changeTime(whiteTime, Piece.Color.WHITE);
@@ -258,7 +253,7 @@ public class ChessGUI extends Application {
         whiteTimer.getChildren().addAll(whiteLabel, whiteTime);
 
         blackTime = new Text("10:00");
-        blackClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+        blackClockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
                 changeTime(blackTime, Piece.Color.BLACK);
@@ -281,37 +276,36 @@ public class ChessGUI extends Application {
         extra.getChildren().add(timers);
         checkPlayerStatus();
 
-        aiMove = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>(){
+        aiMove = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<>() {
             @Override
-            public void handle(ActionEvent event){
-                if(choice == Piece.Color.WHITE && game.getCurrentTurn().getColor() == Piece.Color.BLACK){
+            public void handle(ActionEvent event) {
+                if (choice == Piece.Color.WHITE && game.getCurrentTurn().getColor() == Piece.Color.BLACK) {
                     int[] move = game.getAiMove("b");
-                    game.playerMove(game.getBlackPlayer(), game.getBoard().getBox(move[0],move[1]),game.getBoard().getBox(move[2],move[3]));
-                    for(Node p : gameBoard.getChildren()){
-                        BoxPane bp = (BoxPane)(p);
+                    game.playerMove(game.getBlackPlayer(), game.getBoard().getBox(move[0], move[1]), game.getBoard().getBox(move[2], move[3]));
+                    for (Node p : gameBoard.getChildren()) {
+                        BoxPane bp = (BoxPane) (p);
                         if (bp.getCol() == move[1] && bp.getRow() == move[0]) {
                             bp.updated();
-                        }
-                        else if(bp.getCol() == move[3] && bp.getRow() == move[2]){
+                        } else if (bp.getCol() == move[3] && bp.getRow() == move[2]) {
                             bp.updated();
                         }
                     }
                 }
 
-                if(choice == Piece.Color.BLACK && game.getCurrentTurn().getColor() == Piece.Color.WHITE){
+                if (choice == Piece.Color.BLACK && game.getCurrentTurn().getColor() == Piece.Color.WHITE) {
                     int[] move = game.getAiMove("w");
-                    game.playerMove(game.getWhitePlayer(), game.getBoard().getBox(move[0],move[1]),game.getBoard().getBox(move[2],move[3]));
-                    for(Node p : gameBoard.getChildren()){
-                        BoxPane bp = (BoxPane)(p);
+                    game.playerMove(game.getWhitePlayer(), game.getBoard().getBox(move[0], move[1]), game.getBoard().getBox(move[2], move[3]));
+                    for (Node p : gameBoard.getChildren()) {
+                        BoxPane bp = (BoxPane) (p);
                         if (bp.getCol() == move[1] && bp.getRow() == move[0]) {
                             bp.updated();
-                        }
-                        else if(bp.getCol() == move[3] && bp.getRow() == move[2]){
+                        } else if (bp.getCol() == move[3] && bp.getRow() == move[2]) {
                             bp.updated();
                         }
                     }
+                }
             }
-        }}));
+        }));
         aiMove.setCycleCount(Timeline.INDEFINITE);
         aiMove.setAutoReverse(false);
 

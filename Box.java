@@ -1,12 +1,3 @@
-import javafx.scene.layout.HBox;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.geometry.Pos;
-import java.util.Optional;
-
 public class Box{
     private Piece piece;
     private int x;
