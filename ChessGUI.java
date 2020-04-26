@@ -143,6 +143,7 @@ public class ChessGUI extends Application {
                         activeScene = gameScene;
                         choice = Piece.Color.BLACK;
                         aiMove.play();
+                        whiteClockTimeline.play();
                     }
                 });
 
@@ -175,6 +176,7 @@ public class ChessGUI extends Application {
                         activeScene = gameScene;
                         choice = Piece.Color.WHITE;
                         aiMove.play();
+                        whiteClockTimeline.play();
                     }
                 });
 
@@ -192,6 +194,7 @@ public class ChessGUI extends Application {
                 p1vp2 = true;
                 primaryStage.setScene(gameScene);
                 activeScene = gameScene;
+                whiteClockTimeline.play();
             }
         });
 
@@ -400,8 +403,8 @@ public class ChessGUI extends Application {
         bSecs = 0;
         wMins = 10;
         wSecs = 0;
-        whiteTime = new Text("10:00");
-        blackTime = new Text("10:00");
+        whiteTime.setText("10:00");
+        blackTime.setText("10:00");
         whiteClockTimeline.play();
         aiMove.play();
         blackClockTimeline.pause();
@@ -438,7 +441,7 @@ public class ChessGUI extends Application {
      * TODO: Fix timer so that it only starts when the user gets to the game board
      */
     public void checkPlayerStatus(){
-        if(game.getCurrentTurn() == game.getWhitePlayer()){
+        if(activeScene == gameScene && game.getCurrentTurn() == game.getWhitePlayer()){
             blackTimer.setStyle("-fx-background-color: #d1e5eb;");
             blackLabel.setStrokeWidth(0);
             blackTime.setFont(new Font(13));
@@ -451,7 +454,7 @@ public class ChessGUI extends Application {
             whiteClockTimeline.play();
 
         }
-        else if(game.getCurrentTurn() == game.getBlackPlayer()){
+        else if(activeScene == gameScene && game.getCurrentTurn() == game.getBlackPlayer()){
             whiteTimer.setStyle("-fx-background-color: #d1e5eb;");
             whiteLabel.setStrokeWidth(0);
             whiteTime.setFont(new Font(13));
