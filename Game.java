@@ -185,9 +185,4 @@ public class Game {
 
         return moves;
     }
-
-    // Function to take in timer, if game is too long, set as tie
-    public boolean isTie() {
-        return false;
-    }
 }
