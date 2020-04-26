@@ -36,15 +36,15 @@ import static javafx.scene.paint.Color.color;
 public class ChessGUI extends Application {
     private Game game; // The game
     private GridPane gameBoard; // grid of boxes
-    private BorderPane main; // main layout
-    private Button newGameBtn, endGameBtn;
-    private VBox extra, whiteTimer, blackTimer, buttonPane, entryPane;
-    private HBox timers, computerGame, playerGame, ending;
-    private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle, endingMessage;
+    private VBox whiteTimer, blackTimer, entryPane;
+    private HBox computerGame, playerGame;
+    private Text whiteTime, blackTime;
+    private Text whiteLabel, blackLabel;
+    private Text endingMessage;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
     private Timeline whiteClockTimeline, blackClockTimeline, aiMove;
     private ArrayList<BoxPane> selected;
-    private Scene entryScene, gameScene, activeScene;
+    private Scene gameScene, activeScene;
     private Boolean p1vp2; // Whether or not the game is player 1 vs. player 2
     private Piece.Color choice; // color user chooses to play as
 
@@ -53,15 +53,15 @@ public class ChessGUI extends Application {
         primaryStage.setTitle("Chess Game");
 
         /* *******************************       Entry Scene      ******************************************* */
-        computerGameLabel = new Text("Player 1\nvs.\nComputer");
-        playerGameLabel = new Text("Player 1\nvs.\nPlayer 2");
+        Text computerGameLabel = new Text("Player 1\nvs.\nComputer");
+        Text playerGameLabel = new Text("Player 1\nvs.\nPlayer 2");
         computerGameLabel.setTextAlignment(TextAlignment.CENTER);
         computerGameLabel.setFont(new Font(20));
         computerGameLabel.setFill(Paint.valueOf("#eeeeee"));
         playerGameLabel.setTextAlignment(TextAlignment.CENTER);
         playerGameLabel.setFont(new Font(20));
         playerGameLabel.setFill(Paint.valueOf("#eeeeee"));
-        entryTitle = new Text(" New Game? ");
+        Text entryTitle = new Text(" New Game? ");
         entryTitle.setFont(new Font(50));
         entryTitle.setFill(Paint.valueOf("#35414a"));
         computerGame = new HBox();
@@ -125,6 +125,20 @@ public class ChessGUI extends Application {
                 blackBox.getChildren().add(blackL);
                 blackBox.setPadding(new Insets(10,10,10,10));
                 blackBox.setMinSize(120,120);
+                blackBox.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        blackBox.setStyle("-fx-background-color: grey;");
+                        //blackL.setStyle("-fx-fill: black;");
+                    }
+                });
+                blackBox.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        blackBox.setStyle("-fx-background-color: black;");
+                        //blackL.setStyle("-fx-fill: white;");
+                    }
+                });
                 blackBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -145,6 +159,20 @@ public class ChessGUI extends Application {
                 whiteBox.getChildren().add(whiteL);
                 whiteBox.setPadding(new Insets(10,10,10,10));
                 whiteBox.setMinSize(120,120);
+                whiteBox.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        whiteBox.setStyle("-fx-background-color: grey;");
+                        //whiteL.setStyle("-fx-fill: white;");
+                    }
+                });
+                whiteBox.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        whiteBox.setStyle("-fx-background-color: white;");
+                       // whiteL.setStyle("-fx-fill: Black;");
+                    }
+                });
                 whiteBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -176,18 +204,19 @@ public class ChessGUI extends Application {
         entryPane.setStyle("-fx-background-color: #ffe7d9;");
         entryPane.getChildren().addAll(entryTitle, buttons);
         //entryPane.setMinSize(200,200);
-        entryScene = new Scene(entryPane);
+        Scene entryScene = new Scene(entryPane);
         activeScene = entryScene;
 
         /* *******************************       Main Scene      ******************************************* */
         // Set up Panes
-        main = new BorderPane();
-        extra = new VBox(30);
+        // main layout
+        BorderPane main = new BorderPane();
+        VBox extra = new VBox(30);
         extra.setStyle("-fx-background-color: #4f5a69;");
         extra.setMinWidth(200);
         extra.setPadding(new Insets(20, 20, 20, 20));
         main.setLeft(extra);
-        buttonPane = new VBox(30);
+        VBox buttonPane = new VBox(30);
         buttonPane.setPadding(new Insets(20,20,20,20));
         buttonPane.setStyle("-fx-background-color: #7b5954;");
         main.setRight(buttonPane);
@@ -202,12 +231,12 @@ public class ChessGUI extends Application {
         main.setCenter(gameBoard);
 
         // New Game Button
-        newGameBtn =  new Button("New Game");
+        Button newGameBtn = new Button("New Game");
         newGameBtn.setOnAction(this::newGame);
         buttonPane.getChildren().add(newGameBtn);
 
         // End Game Button
-        endGameBtn = new Button("End Game");
+        Button endGameBtn = new Button("End Game");
         endGameBtn.setOnMouseClicked(this::handleEnd);
         buttonPane.getChildren().add(endGameBtn);
 
@@ -244,7 +273,7 @@ public class ChessGUI extends Application {
         blackLabel = new Text("Player 2");
         blackTimer.getChildren().addAll(blackLabel, blackTime);
 
-        timers = new HBox(10);
+        HBox timers = new HBox(10);
         timers.setAlignment(Pos.CENTER);
         timers.setStyle("-fx-background-color: #d1e5eb;" + "-fx-border-width:5;" + "-fx-border-color: #727a87;");
         timers.setPadding(new Insets(10, 10, 10, 10));
@@ -288,7 +317,7 @@ public class ChessGUI extends Application {
 
         gameScene = new Scene(main);
 
-        ending = new HBox();
+        HBox ending = new HBox();
         endingMessage = new Text("");
         endingMessage.setTextAlignment(TextAlignment.CENTER);
         ending.getChildren().add(endingMessage);
