@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 
 
 public class BoxPane  extends HBox{
-    private Box box;
+    private final Box box;
     private boolean selected;
     private Text type;
 

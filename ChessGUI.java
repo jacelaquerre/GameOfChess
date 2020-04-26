@@ -46,7 +46,7 @@ public class ChessGUI extends Application {
     private Piece.Color choice; // color user chooses to play as
 
     @Override
-    public void start(Stage primaryStage)throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Chess Game");
 
         /* *******************************       Entry Scene      ******************************************* */
