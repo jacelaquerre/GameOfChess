@@ -4,12 +4,12 @@
  */
 
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.geometry.VPos;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
@@ -30,13 +30,15 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+import static javafx.scene.paint.Color.color;
+
 // TODO: Find out why second scene is moved off center and correct it
 public class ChessGUI extends Application {
     private Game game; // The game
     private GridPane gameBoard; // grid of boxes
-    private BorderPane main, entryPane; // main layout
+    private BorderPane main; // main layout
     private Button newGameBtn, endGameBtn;
-    private VBox extra, whiteTimer, blackTimer, buttonPane;
+    private VBox extra, whiteTimer, blackTimer, buttonPane, entryPane;
     private HBox timers, computerGame, playerGame, ending;
     private Text whiteTime, blackTime, whiteLabel, blackLabel, computerGameLabel, playerGameLabel, entryTitle, endingMessage;
     private int wMins = 10, wSecs = 0, bMins = 10, bSecs = 0;
@@ -51,27 +53,68 @@ public class ChessGUI extends Application {
         primaryStage.setTitle("Chess Game");
 
         /* *******************************       Entry Scene      ******************************************* */
-        // TODO: Alter the kind of game once the AI is working and make it prettier
         computerGameLabel = new Text("Player 1\nvs.\nComputer");
         playerGameLabel = new Text("Player 1\nvs.\nPlayer 2");
         computerGameLabel.setTextAlignment(TextAlignment.CENTER);
+        computerGameLabel.setFont(new Font(20));
+        computerGameLabel.setFill(Paint.valueOf("#eeeeee"));
         playerGameLabel.setTextAlignment(TextAlignment.CENTER);
+        playerGameLabel.setFont(new Font(20));
+        playerGameLabel.setFill(Paint.valueOf("#eeeeee"));
         entryTitle = new Text(" New Game? ");
         entryTitle.setFont(new Font(50));
+        entryTitle.setFill(Paint.valueOf("#35414a"));
         computerGame = new HBox();
+        computerGame.setAlignment(Pos.CENTER);
+        computerGame.setStyle("-fx-background-color: #35414a;");
+        computerGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                computerGame.setStyle("-fx-background-color: #6d7c7b;"+ "-fx-border-color: #d88888;" + "-fx-border-width: 5");
+            }
+        });
+        computerGame.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                computerGame.setStyle("-fx-background-color: #35414a;" );
+
+            }
+        });
         playerGame = new HBox();
+        playerGame.setAlignment(Pos.CENTER);
+        playerGame.setStyle("-fx-background-color: #35414a;");
+        playerGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                playerGame.setStyle("-fx-background-color: #6d7c7b;"+ "-fx-border-color: #d88888;" + "-fx-border-width: 5");
+            }
+        });
+        playerGame.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                playerGame.setStyle("-fx-background-color: #35414a;" );
+
+            }
+        });
         computerGame.getChildren().add(computerGameLabel);
         playerGame.getChildren().add(playerGameLabel);
-        computerGame.setPadding(new Insets(10,10,10,50));
-        playerGame.setPadding(new Insets(10,50,10,10));
+        computerGame.setPadding(new Insets(10,10,10,10));
+        computerGame.setMinSize(120,120);
+        playerGame.setPadding(new Insets(10,10,10,10));
+        playerGame.setMinSize(120,120);
+        HBox buttons = new HBox(30);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setPadding(new Insets(10,10,10,10));
+        buttons.getChildren().addAll(computerGame, playerGame);
 
         computerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 p1vp2 = false;
-                Text prompt =  new Text("Choose your Team");
-                prompt.setFont(new Font(30));
+                Text prompt =  new Text("");
+                prompt.setFont(new Font(50));
                 prompt.setTextAlignment(TextAlignment.CENTER);
+
                 HBox blackBox = new HBox();
                 blackBox.setAlignment(Pos.CENTER);
                 blackBox.setStyle("-fx-background-color: black;");
@@ -80,7 +123,8 @@ public class ChessGUI extends Application {
                 blackL.setFont(new Font(30));
                 blackL.setStyle("-fx-fill: white;");
                 blackBox.getChildren().add(blackL);
-                blackBox.setPadding(new Insets(5,5,5,5));
+                blackBox.setPadding(new Insets(10,10,10,10));
+                blackBox.setMinSize(120,120);
                 blackBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -99,7 +143,8 @@ public class ChessGUI extends Application {
                 whiteL.setFont(new Font(30));
                 whiteL.setStyle("-fx-fill: black;");
                 whiteBox.getChildren().add(whiteL);
-                whiteBox.setPadding(new Insets(5,5,5,5));
+                whiteBox.setPadding(new Insets(10,10,10,10));
+                whiteBox.setMinSize(120,120);
                 whiteBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -110,10 +155,12 @@ public class ChessGUI extends Application {
                     }
                 });
 
+                buttons.getChildren().clear();
+                buttons.getChildren().addAll(blackBox, whiteBox);
+
                 entryPane.getChildren().clear();
-                entryPane.setTop(prompt);
-                entryPane.setLeft(blackBox);
-                entryPane.setRight(whiteBox);
+                entryPane.getChildren().addAll(prompt, buttons);
+
             }
         });
         playerGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -125,10 +172,9 @@ public class ChessGUI extends Application {
             }
         });
 
-        entryPane = new BorderPane();
-        entryPane.setTop(entryTitle);
-        entryPane.setLeft(computerGame);
-        entryPane.setRight(playerGame);
+        entryPane = new VBox(30);
+        entryPane.setStyle("-fx-background-color: #ffe7d9;");
+        entryPane.getChildren().addAll(entryTitle, buttons);
         //entryPane.setMinSize(200,200);
         entryScene = new Scene(entryPane);
         activeScene = entryScene;
@@ -318,6 +364,7 @@ public class ChessGUI extends Application {
         if(game.getStatus() == Game.GameMode.ACTIVE){
             endingMessage.setText("You Quit the Game!");
         }
+        aiMove.pause();
         blackClockTimeline.pause();
         whiteClockTimeline.pause();
     }
@@ -333,6 +380,7 @@ public class ChessGUI extends Application {
         whiteTime = new Text("10:00");
         blackTime = new Text("10:00");
         whiteClockTimeline.play();
+        aiMove.play();
         blackClockTimeline.pause();
         endingMessage.setText("");
     }
