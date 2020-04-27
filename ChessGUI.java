@@ -140,6 +140,7 @@ public class ChessGUI extends Application {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         primaryStage.setScene(gameScene);
+                        primaryStage.centerOnScreen();
                         activeScene = gameScene;
                         choice = Piece.Color.BLACK;
                         aiMove.play();
@@ -173,6 +174,7 @@ public class ChessGUI extends Application {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         primaryStage.setScene(gameScene);
+                        primaryStage.centerOnScreen();
                         activeScene = gameScene;
                         choice = Piece.Color.WHITE;
                         aiMove.play();
@@ -193,6 +195,7 @@ public class ChessGUI extends Application {
             public void handle(MouseEvent mouseEvent) {
                 p1vp2 = true;
                 primaryStage.setScene(gameScene);
+                primaryStage.centerOnScreen();
                 activeScene = gameScene;
                 whiteClockTimeline.play();
             }
@@ -279,7 +282,7 @@ public class ChessGUI extends Application {
         extra.getChildren().add(timers);
         checkPlayerStatus();
 
-        aiMove = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<>() {
+        aiMove = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
                 if (choice == Piece.Color.WHITE && game.getCurrentTurn().getColor() == Piece.Color.BLACK) {
@@ -323,6 +326,7 @@ public class ChessGUI extends Application {
 
         // complete setup
         primaryStage.setScene(activeScene);
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
 
